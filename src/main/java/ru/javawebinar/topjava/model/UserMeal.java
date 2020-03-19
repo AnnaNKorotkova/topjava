@@ -33,16 +33,4 @@ public class UserMeal {
         return calories;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserMeal userMeal = (UserMeal) o;
-        return dateTime.equals(userMeal.dateTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(dateTime);
-    }
 }
