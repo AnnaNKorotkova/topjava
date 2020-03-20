@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class UserMeal {
+public class UserMeal implements Comparable<UserMeal>{
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -33,4 +33,8 @@ public class UserMeal {
         return calories;
     }
 
+    @Override
+    public int compareTo(UserMeal o) {
+        return dateTime.compareTo(o.dateTime);
+    }
 }
