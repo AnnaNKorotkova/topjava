@@ -1,10 +1,8 @@
 package ru.javawebinar.topjava.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-public class UserMeal implements Comparable<UserMeal>{
+public class UserMeal {
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -21,20 +19,11 @@ public class UserMeal implements Comparable<UserMeal>{
         return dateTime;
     }
 
-    public LocalDate getDate() {
-        return dateTime.toLocalDate();
-    }
-
     public String getDescription() {
         return description;
     }
 
     public int getCalories() {
         return calories;
-    }
-
-    @Override
-    public int compareTo(UserMeal o) {
-        return dateTime.compareTo(o.dateTime);
     }
 }
