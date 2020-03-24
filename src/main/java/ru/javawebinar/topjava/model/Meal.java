@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 public class Meal implements Comparable<Meal> {
+    public final static Meal EMPTY = new Meal("", LocalDateTime.now(), "", 10);
     private final String uuid;
 
     private final LocalDateTime dateTime;

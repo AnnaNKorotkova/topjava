@@ -1,19 +1,15 @@
 package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealTo;
-import ru.javawebinar.topjava.storage.MealStorageImpl;
-import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MealsTestData {
 
-    private final static List<Meal> MEALS = Arrays.asList(
+private final static CopyOnWriteArrayList<Meal> MEALS = new CopyOnWriteArrayList<>(Arrays.asList(
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500),
@@ -21,10 +17,9 @@ public class MealsTestData {
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000),
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
-    );
+    ));
 
-    public static List<Meal> getList() {
+    public static CopyOnWriteArrayList<Meal> getList() {
         return MEALS;
     }
-
 }

@@ -2,14 +2,13 @@ package ru.javawebinar.topjava.storage;
 
 import ru.javawebinar.topjava.model.Meal;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MealStorageImpl implements Storage {
 
-    private List<Meal> storage = new ArrayList<>();
+    private CopyOnWriteArrayList<Meal> storage = new CopyOnWriteArrayList<>();
 
-    public void setStorage(List<Meal> storage) {
+    public void setStorage(CopyOnWriteArrayList<Meal> storage) {
         this.storage = storage;
     }
 
@@ -24,8 +23,8 @@ public class MealStorageImpl implements Storage {
     }
 
     @Override
-    public void delete(Meal meal) {
-        storage.remove(meal);
+    public void delete(String uuid) {
+        storage.remove(storage.get(findIndexByUuid(uuid)));
     }
 
     @Override
@@ -34,7 +33,7 @@ public class MealStorageImpl implements Storage {
     }
 
     @Override
-    public List<Meal> getAll() {
+    public CopyOnWriteArrayList<Meal> getAll() {
         return storage;
     }
 
