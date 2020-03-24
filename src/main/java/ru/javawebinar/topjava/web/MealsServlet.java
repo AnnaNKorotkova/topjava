@@ -30,7 +30,6 @@ public class MealsServlet extends HttpServlet {
         mealStorage.setStorage(MealsTestData.getList());
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -72,7 +71,6 @@ public class MealsServlet extends HttpServlet {
         }
     }
 
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
@@ -89,8 +87,6 @@ public class MealsServlet extends HttpServlet {
         int cal = parseInt(request.getParameter("cal"));
 
         if (uuid != null && uuid.trim().length() != 0) {
-            //           meal = mealStorage.get(uuid);
-
             meal = new Meal(uuid, ldt, desc, cal);
             mealStorage.update(meal);
         } else {
