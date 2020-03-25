@@ -22,7 +22,7 @@ import static java.lang.Integer.parseInt;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealsServlet extends HttpServlet {
-    private static final Logger log = getLogger(MealsServlet.class);
+    private final static Logger LOG = getLogger(MealsServlet.class);
     final int caloriesPerDay = 2000;
     final LocalTime start = LocalTime.MIN;
     final LocalTime end = LocalTime.MAX;
@@ -45,7 +45,7 @@ public class MealsServlet extends HttpServlet {
 
         final List<MealTo> listMealsTo = MealsUtil.filteredByStreams(mealStorage.getAll(), start, end, caloriesPerDay);
 
-        log.debug("forward to meals");
+        LOG.debug("forward to meals");
 
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
