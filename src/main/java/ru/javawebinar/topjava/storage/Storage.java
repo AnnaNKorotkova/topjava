@@ -2,18 +2,18 @@ package ru.javawebinar.topjava.storage;
 
 import ru.javawebinar.topjava.model.Meal;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface Storage {
 
-    void save(Meal meal);
+    void save(LocalDateTime ldt, String desc, int cal);
 
     void update(Meal meal);
 
-    void delete(String uuid);
+    void delete(long uuid);
 
-    Meal get(String uuid);
+    Meal get(long uuid);
 
-    CopyOnWriteArrayList<Meal> getAll();
+    List<Meal> getAll();
 }

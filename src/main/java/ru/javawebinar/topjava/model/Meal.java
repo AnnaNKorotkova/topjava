@@ -3,32 +3,36 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.UUID;
 
-public class Meal implements Comparable<Meal> {
-    public final static Meal EMPTY = new Meal("", LocalDateTime.now(), "", 10);
-    private final String uuid;
+public class Meal  {
+    private long uuid = 0;
 
-    private final LocalDateTime dateTime;
+    private LocalDateTime dateTime = LocalDateTime.now();
 
-    private final String description;
+    private String description=null;
 
-    private final int calories;
+    private int calories = 0;
 
-    public Meal(LocalDateTime dateTime, String description, int calories) {
-        this.uuid = UUID.randomUUID().toString();
-        this.dateTime = dateTime;
-        this.description = description;
-        this.calories = calories;
+    public Meal(){
     }
-    public Meal(String uuid, LocalDateTime dateTime, String description, int calories) {
-        this.uuid = uuid;
-        this.dateTime = dateTime;
-        this.description = description;
-        this.calories = calories;
+    public Meal(long uuid){
+        this.uuid=uuid;
+    }
+    public Meal(long uuid,LocalDateTime dateTime){
+        this(uuid);
+        this.dateTime= dateTime;
+    }
+    public Meal(long uuid, LocalDateTime dateTime, String description){
+        this(uuid, dateTime);
+        this.description= description;
     }
 
-    public String getUuid() {
+    public Meal(long uuid, LocalDateTime dateTime, String description, int calories){
+        this(uuid, dateTime, description);
+        this.calories=calories;
+    }
+
+    public long getUuid() {
         return uuid;
     }
 
@@ -50,10 +54,5 @@ public class Meal implements Comparable<Meal> {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
-    }
-
-    @Override
-    public int compareTo(Meal meal) {
-        return uuid.compareTo(meal.getUuid());
     }
 }

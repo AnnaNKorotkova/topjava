@@ -5,12 +5,16 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MealsUtil {
+
+    public  static  final Meal EMPTY = new Meal(0L, LocalDateTime.now(),"", 0);
+
     public static void main(String[] args) {
 
         List<Meal> meals = MealsTestData.getList();

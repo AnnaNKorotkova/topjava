@@ -4,29 +4,42 @@ import java.time.LocalDateTime;
 
 public class MealTo {
 
-    private final String uuid;
+    private  long uuid = 0;
+
+    private  LocalDateTime dateTime= LocalDateTime.now();
+
+    private  String description =  null;
+
+    private  int calories=0;
+
+    private  boolean excess= true;
+
+    public MealTo(long uuid){
+        this.uuid=uuid;
+    }
+    public MealTo(long uuid, LocalDateTime dateTime){
+        this(uuid);
+        this.dateTime=dateTime;
+    }
+    public MealTo(long uuid, LocalDateTime dateTime, String description){
+        this(uuid, dateTime);
+        this.description=description ;
+    }
+
+    public MealTo(long uuid, LocalDateTime dateTime, String description, int calories){
+        this(uuid, dateTime, description);
+        this.calories=calories;
+    }
+
+    public MealTo(long uuid, LocalDateTime dateTime, String description, int calories, boolean excess){
+        this(uuid, dateTime, description, calories);
+        this.excess=excess;
+    }
 
     public boolean getExcess() {
         return excess;
     }
-
-    private final LocalDateTime dateTime;
-
-    private final String description;
-
-    private final int calories;
-
-    private final boolean excess;
-
-    public MealTo(String uuid, LocalDateTime dateTime, String description, int calories, boolean excess) {
-        this.uuid = uuid;
-        this.dateTime = dateTime;
-        this.description = description;
-        this.calories = calories;
-        this.excess = excess;
-    }
-
-    public String getUuid() {
+    public long getUuid() {
         return uuid;
     }
 
