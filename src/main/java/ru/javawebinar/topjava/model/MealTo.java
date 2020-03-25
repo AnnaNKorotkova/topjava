@@ -5,22 +5,20 @@ import java.time.LocalDateTime;
 public class MealTo {
 
     private  long uuid = 0;
-
     private  LocalDateTime dateTime= LocalDateTime.now();
-
     private  String description =  null;
-
     private  int calories=0;
-
     private  boolean excess= true;
 
     public MealTo(long uuid){
         this.uuid=uuid;
     }
+
     public MealTo(long uuid, LocalDateTime dateTime){
         this(uuid);
         this.dateTime=dateTime;
     }
+
     public MealTo(long uuid, LocalDateTime dateTime, String description){
         this(uuid, dateTime);
         this.description=description ;
@@ -39,6 +37,7 @@ public class MealTo {
     public boolean getExcess() {
         return excess;
     }
+
     public long getUuid() {
         return uuid;
     }

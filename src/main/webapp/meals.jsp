@@ -14,12 +14,7 @@
     <jsp:useBean id="meals" type="java.util.List" scope="request"/>
     <c:forEach items="${meals}" var="t">
         <jsp:useBean id="t" type="ru.javawebinar.topjava.model.MealTo"/>
-        <c:if test="${t.excess}">
-            <c:set var="textColor" value="color: red"/>
-        </c:if>
-        <c:if test="${!t.excess}">
-            <c:set var="textColor" value="color: green"/>
-        </c:if>
+        <c:set var="textColor" value="${t.excess ? 'color: red' : 'color: green'}"/>
         <tbody style="${textColor}">
         <tr>
             <td>
@@ -42,23 +37,23 @@
     </c:forEach>
 </table>
 <c:set var="edit" value="${mealSaveEdit}" scope="request"/>
-<c:if test="${edit}">
+<c:if test="${edit && meal != null}">
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <form id="form" method="post" action="meals" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="uuid" value="${meal.uuid}">
         <tr>
             <td>
-                <input type="text" style="text-align: center" id="date" name="date" size="15"
+                <input type="text" style="text-align: center" id="date" name="date" size="15" required
                        value="${meal.dateTime.format(DateTimeFormatter.ofPattern('dd.MM.YYYY HH:mm'))}"
                        placeholder="DD-MM-YYYY-HH-mm">
             </td>
             <td>
-                <input type="text" style="text-align: center" id="desc" name="desc" size="50"
+                <input type="text" style="text-align: center" id="desc" name="desc" size="33" required
                        value="${meal.description}" placeholder="Description">
             </td>
             <td>
-                <input type="text" style="text-align: center" id="cal" name="cal" size="5"
-                       value="${meal.calories}" placeholder="5< calories <5000">
+                <input type="text" style="text-align: center" id="cal" name="cal" size="8" required
+                       value="${meal.calories}" placeholder="5< cal <5000">
             </td>
         </tr>
         <button type="submit" class="confirmButton">Сохранить</button>

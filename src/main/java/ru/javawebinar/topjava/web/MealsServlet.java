@@ -52,31 +52,30 @@ public class MealsServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
 
         String action = request.getParameter("action");
+        request.setAttribute("meals", listMealsTo);
+
         if (action == null) {
-            request.setAttribute("meals", listMealsTo);
             request.getRequestDispatcher("meals.jsp").forward(request, response);
             return;
         }
 
         String uuid = request.getParameter("uuid");
-        request.setAttribute("mealSaveEdit", true);
-        request.setAttribute("meals", listMealsTo);
         switch (action) {
             case "delete":
                 mealStorage.delete(parseInt(uuid));
                 response.sendRedirect("meals");
-                break;
+                return;
             case "edit":
                 request.setAttribute("meal", mealStorage.get(parseInt(uuid)));
-                request.getRequestDispatcher("meals.jsp").forward(request, response);
-                return;
+                break;
             case "save":
                 request.setAttribute("meal", MealsUtil.EMPTY);
-                request.getRequestDispatcher("meals.jsp").forward(request, response);
-                return;
+                break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
         }
+        request.setAttribute("mealSaveEdit", true);
+        request.getRequestDispatcher("meals.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
