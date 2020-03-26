@@ -55,8 +55,7 @@ public class MealsServlet extends HttpServlet {
         request.setAttribute("meals", listMealsTo);
 
         if (action == null) {
-            request.getRequestDispatcher("meals.jsp").forward(request, response);
-            return;
+            action = "";
         }
 
         String uuid = request.getParameter("uuid");
@@ -72,7 +71,8 @@ public class MealsServlet extends HttpServlet {
                 request.setAttribute("meal", MealsUtil.EMPTY);
                 break;
             default:
-                throw new IllegalArgumentException("Action " + action + " is illegal");
+            request.getRequestDispatcher("meals.jsp").forward(request, response);
+//                throw new IllegalArgumentException("Action " + action + " is illegal");
         }
         request.setAttribute("mealSaveEdit", true);
         request.getRequestDispatcher("meals.jsp").forward(request, response);
