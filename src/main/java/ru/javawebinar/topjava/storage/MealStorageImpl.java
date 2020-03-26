@@ -1,29 +1,28 @@
 package ru.javawebinar.topjava.storage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.javawebinar.topjava.model.Meal;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class MealStorageImpl implements Storage {
 
-    private final static Logger LOG = LoggerFactory.getLogger(MealStorageImpl.class);
     private Map<Long, Meal> storage = new ConcurrentHashMap<>();
-    private long lastUuid = 0L;
+    private AtomicLong lastUuid = new AtomicLong(1L);
 
     @Override
-    public void save(LocalDateTime ldt, String desc, int cal) {
-        storage.put(++lastUuid, new Meal(lastUuid, ldt, desc, cal));
+    public void save(Meal meal) {
+        AtomicLong al = new AtomicLong(lastUuid.getAndIncrement());
+        meal.setUuid(al);
+        storage.put(al.get(), meal);
     }
 
     @Override
     public void update(Meal meal) {
-        storage.replace(meal.getUuid(), meal);
+        storage.replace(meal.getUuid().get(), meal);
     }
 
     @Override
@@ -33,10 +32,6 @@ public class MealStorageImpl implements Storage {
 
     @Override
     public Meal get(long uuid) {
-        if (!storage.containsKey(uuid)) {
-            LOG.info(" Didn't found a meal");
-            return null;
-        }
         return storage.get(uuid);
     }
 
@@ -44,5 +39,4 @@ public class MealStorageImpl implements Storage {
     public List<Meal> getAll() {
         return new ArrayList<>(storage.values());
     }
-
 }

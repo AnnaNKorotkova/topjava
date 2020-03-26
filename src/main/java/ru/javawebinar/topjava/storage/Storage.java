@@ -2,12 +2,11 @@ package ru.javawebinar.topjava.storage;
 
 import ru.javawebinar.topjava.model.Meal;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface Storage {
 
-    void save(LocalDateTime ldt, String desc, int cal);
+    void save(Meal meal);
 
     void update(Meal meal);
 

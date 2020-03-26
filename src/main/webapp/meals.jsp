@@ -36,8 +36,7 @@
         </tbody>
     </c:forEach>
 </table>
-<c:set var="edit" value="${mealSaveEdit}" scope="request"/>
-<c:if test="${edit && meal != null}">
+<c:if test="${meal != null}">
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <form id="form" method="post" action="meals" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="uuid" value="${meal.uuid}">
@@ -60,7 +59,7 @@
         <button onclick="window.history.back()">Отменить</button>
     </form>
 </c:if>
-<c:if test="${!edit}">
+<c:if test="${meal == null}">
     <a href="meals?action=save">
         <button type="submit">Создать новую запись</button>
     </a>

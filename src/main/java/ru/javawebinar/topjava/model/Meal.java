@@ -3,38 +3,28 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Meal  {
 
-    private long uuid = 0;
-    private LocalDateTime dateTime = LocalDateTime.now();
-    private String description=null;
+    private AtomicLong uuid;
+    private LocalDateTime dateTime;
+    private String description;
     private int calories = 0;
 
-    public Meal(){
-    }
-
-    public Meal(long uuid){
-        this.uuid=uuid;
-    }
-
-    public Meal(long uuid,LocalDateTime dateTime){
-        this(uuid);
-        this.dateTime= dateTime;
-    }
-
-    public Meal(long uuid, LocalDateTime dateTime, String description){
-        this(uuid, dateTime);
-        this.description= description;
-    }
-
-    public Meal(long uuid, LocalDateTime dateTime, String description, int calories){
-        this(uuid, dateTime, description);
+    public Meal(AtomicLong uuid, LocalDateTime dateTime, String description, int calories){
+        this.uuid = uuid;
+        this.dateTime = dateTime;
+        this.description = description;
         this.calories=calories;
     }
 
-    public long getUuid() {
+    public AtomicLong getUuid() {
         return uuid;
+    }
+
+    public void setUuid(AtomicLong uuid) {
+        this.uuid = uuid;
     }
 
     public LocalDateTime getDateTime() {

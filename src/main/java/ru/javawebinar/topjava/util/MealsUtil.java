@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.util;
 
-import ru.javawebinar.topjava.MealsTestData;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 
@@ -9,17 +8,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 public class MealsUtil {
 
-    public  static  final Meal EMPTY = new Meal(0L, LocalDateTime.now(),"", 0);
+    public  static  final Meal EMPTY = new Meal(new AtomicLong(0L), LocalDateTime.now(),"", 0);
 
     public static void main(String[] args) {
 
-        List<Meal> meals = MealsTestData.getList();
-        List<MealTo> mealsTo = filteredByStreams(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
-        mealsTo.forEach(System.out::println);
     }
 
     public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
