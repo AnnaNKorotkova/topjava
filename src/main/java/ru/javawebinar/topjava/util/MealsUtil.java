@@ -1,25 +1,22 @@
 package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.Role;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.MealTo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+
 public class MealsUtil {
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
-
-
-       public static final User USER = new User(null, "admin", "topjava.admin@mail.net", "admin"
-                , 2000, true, Collections.singleton(Role.ROLE_ADMIN));
-
 
 
     public static final List<Meal> MEALS = Arrays.asList(

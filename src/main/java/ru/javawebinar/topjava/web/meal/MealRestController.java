@@ -36,19 +36,19 @@ public class MealRestController {
 
     public List<MealTo> getAll(User user) {
         List<Meal> list = new ArrayList<>(service.getAll(user.getId()));
-        if (list.isEmpty()){
-            return new ArrayList<>();
-        } else {
-            return MealsUtil.getTos(list, user.getCaloriesPerDay());
-        }
+//        if (list.isEmpty()){
+//            return new ArrayList<>();
+//        } else {
+        return MealsUtil.getTos(list, user.getCaloriesPerDay());
+//        }
     }
 
-    public List<MealTo> getAllByTime (LocalTime startTime, LocalTime endTime, User user){
+    public List<MealTo> getAllByTime(LocalTime startTime, LocalTime endTime, User user) {
         List<Meal> list = new ArrayList<>(service.getAll(user.getId()));
-        if (list.isEmpty()){
-            return new ArrayList<>();
-        } else {
-            return MealsUtil.getFilteredTos(list, user.getCaloriesPerDay(),startTime,endTime);
-        }
+//        if (list.isEmpty()){
+//            return new ArrayList<>();
+//        } else {
+        return MealsUtil.getFilteredTos(list, user.getCaloriesPerDay(), startTime, endTime);
     }
+//    }
 }
