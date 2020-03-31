@@ -7,9 +7,8 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.web.SecurityUtil;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,12 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 @Controller
 public class MealRestController {
 
-    @Autowired
     private MealService service;
+
+    @Autowired
+    public MealRestController(MealService service) {
+        this.service=service;
+    }
 
     public Meal create(int userId, Meal meal) {
         return service.create(userId, meal);
@@ -36,19 +39,11 @@ public class MealRestController {
 
     public List<MealTo> getAll(User user) {
         List<Meal> list = new ArrayList<>(service.getAll(user.getId()));
-//        if (list.isEmpty()){
-//            return new ArrayList<>();
-//        } else {
         return MealsUtil.getTos(list, user.getCaloriesPerDay());
-//        }
     }
 
-    public List<MealTo> getAllByTime(LocalTime startTime, LocalTime endTime, User user) {
+    public List<MealTo> getAllByTime(LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate, User user) {
         List<Meal> list = new ArrayList<>(service.getAll(user.getId()));
-//        if (list.isEmpty()){
-//            return new ArrayList<>();
-//        } else {
-        return MealsUtil.getFilteredTos(list, user.getCaloriesPerDay(), startTime, endTime);
+        return MealsUtil.getFilteredTos(list, user.getCaloriesPerDay(), startTime, endTime, startDate, endDate);
     }
-//    }
 }

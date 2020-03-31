@@ -9,7 +9,6 @@ import ru.javawebinar.topjava.web.SecurityUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
-import java.time.LocalTime;
 import java.util.Arrays;
 
 public class SpringMain {
@@ -23,7 +22,6 @@ public class SpringMain {
             MealRestController mealRestController = appCtx.getBean(MealRestController.class);
             mealRestController.create(SecurityUtil.authUserId(), MealsUtil.MEALS.get(0));
             System.out.println(mealRestController.get(1, 11).getDescription());
-            mealRestController.getAllByTime(LocalTime.of(11, 11), LocalTime.of(15, 15), adminUserController.get(1)).stream().forEach(System.out::println);
         }
     }
 }

@@ -72,7 +72,7 @@ public class MealServlet extends HttpServlet {
                 } else {
                     eld = LocalDate.MAX;
                 }
-                request.setAttribute("meals", mealRestController.getAllByTime(slt, elt, profileRestController.get(SecurityUtil.authUserId()))); // .getAll(profileRestController.get(SecurityUtil.authUserId())));
+                request.setAttribute("meals", mealRestController.getAllByTime(slt, elt, sld, eld, profileRestController.get(SecurityUtil.authUserId()))); // .getAll(profileRestController.get(SecurityUtil.authUserId())));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
         }
         response.sendRedirect("meals");

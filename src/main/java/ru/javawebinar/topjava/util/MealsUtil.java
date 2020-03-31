@@ -30,22 +30,24 @@ public class MealsUtil {
     );
 
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {
-        return filteredByStreams(meals, caloriesPerDay, meal -> true);
+        return filteredByStreams(meals, caloriesPerDay, meal -> true, meal -> true);
     }
 
-    public static List<MealTo> getFilteredTos(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime) {
-        return filteredByStreams(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenInclusive(meal.getTime(), startTime, endTime));
+    public static List<MealTo> getFilteredTos(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime
+            , LocalTime endTime, LocalDate startDate, LocalDate endDate) {
+        return filteredByStreams(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenInclusive(meal.getTime(), startTime, endTime)
+                , meal -> DateTimeUtil.isBetweenInclusive(meal.getDate(), startDate, endDate));
     }
 
-    public static List<MealTo> filteredByStreams(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {
+    public static List<MealTo> filteredByStreams(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter1, Predicate<Meal> filter2) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
                         Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
-//                      Collectors.toMap(Meal::getDate, Meal::getCalories, Integer::sum)
                 );
 
         return meals.stream()
-                .filter(filter)
+                .filter(filter1)
+                .filter(filter2)
                 .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
     }
