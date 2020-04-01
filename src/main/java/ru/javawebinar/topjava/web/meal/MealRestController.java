@@ -39,13 +39,27 @@ public class MealRestController {
         return service.get(SecurityUtil.authUserId(), id);
     }
 
-    public List<MealTo> getAll() {
-        List<Meal> list = new ArrayList<>(service.getAll(SecurityUtil.authUserId()));
+    public List<MealTo> getAll(LocalDate startDate, LocalDate endDate) {
+        if (startDate == null) {
+            startDate = LocalDate.MIN;
+        }
+        if (endDate == null) {
+            endDate = LocalDate.MAX;
+        }
+
+        List<Meal> list = new ArrayList<>(service.getAll(SecurityUtil.authUserId(), startDate, endDate));
         return MealsUtil.getTos(list, MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
     public List<MealTo> getAllByTime(LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate) {
-        List<Meal> list = new ArrayList<>(service.getAll(SecurityUtil.authUserId()));
-        return MealsUtil.getFilteredTos(list, MealsUtil.DEFAULT_CALORIES_PER_DAY, startTime, endTime, startDate, endDate);
+        if (startTime == null) {
+            startTime = LocalTime.MIN;
+        }
+        if (endTime == null) {
+            endTime = LocalTime.MAX;
+        }
+
+        List<Meal> list = new ArrayList<>(service.getAll(SecurityUtil.authUserId(), startDate, endDate));
+        return MealsUtil.getFilteredTos(list, MealsUtil.DEFAULT_CALORIES_PER_DAY, startTime, endTime);
     }
 }

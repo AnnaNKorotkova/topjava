@@ -6,8 +6,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
-import ru.javawebinar.topjava.web.user.ProfileRestController;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +22,15 @@ import java.util.Objects;
 public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
-    ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
-    MealRestController mealRestController = appCtx.getBean(MealRestController.class);
-    ProfileRestController profileRestController = appCtx.getBean(ProfileRestController.class);
+    MealRestController mealRestController;
+    ConfigurableApplicationContext appCtx;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        mealRestController = appCtx.getBean(MealRestController.class);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,7 +52,7 @@ public class MealServlet extends HttpServlet {
                 if (startTime != null && startTime.trim().length() > 4) {
                     slt = LocalTime.parse(startTime);
                 } else {
-                    slt = LocalTime.MIN;
+                    slt = null;
                 }
 
                 LocalTime elt;
@@ -54,7 +60,7 @@ public class MealServlet extends HttpServlet {
                 if (endTime != null && endTime.trim().length() > 4) {
                     elt = LocalTime.parse(endTime);
                 } else {
-                    elt = LocalTime.MAX;
+                    elt = null;
                 }
 
                 LocalDate sld;
@@ -62,7 +68,7 @@ public class MealServlet extends HttpServlet {
                 if (startDate != null && startDate.trim().length() > 4) {
                     sld = LocalDate.parse(startDate);
                 } else {
-                    sld = LocalDate.MIN;
+                    sld = null;
                 }
 
                 LocalDate eld;
@@ -70,8 +76,9 @@ public class MealServlet extends HttpServlet {
                 if (endDate != null && endDate.trim().length() > 4) {
                     eld = LocalDate.parse(endDate);
                 } else {
-                    eld = LocalDate.MAX;
+                    eld = null;
                 }
+
                 request.setAttribute("meals", mealRestController.getAllByTime(slt, elt, sld, eld));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
         }
@@ -101,10 +108,16 @@ public class MealServlet extends HttpServlet {
             default:
 
                 log.info("getAll");
-                request.setAttribute("meals", mealRestController.getAll());
+                request.setAttribute("meals", mealRestController.getAll(LocalDate.MIN, LocalDate.MAX));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        appCtx.close();
     }
 
     private int getId(HttpServletRequest request) {
