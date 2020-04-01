@@ -38,7 +38,7 @@ public class MealServlet extends HttpServlet {
                         request.getParameter("description"),
                         Integer.parseInt(request.getParameter("calories")));
                 log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-                mealRestController.create(SecurityUtil.authUserId(), meal);
+                mealRestController.create(meal);
                 break;
             case "filter":
                 LocalTime slt;
@@ -72,7 +72,7 @@ public class MealServlet extends HttpServlet {
                 } else {
                     eld = LocalDate.MAX;
                 }
-                request.setAttribute("meals", mealRestController.getAllByTime(slt, elt, sld, eld, profileRestController.get(SecurityUtil.authUserId()))); // .getAll(profileRestController.get(SecurityUtil.authUserId())));
+                request.setAttribute("meals", mealRestController.getAllByTime(slt, elt, sld, eld));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
         }
         response.sendRedirect("meals");
@@ -86,14 +86,14 @@ public class MealServlet extends HttpServlet {
             case "delete":
                 int id = getId(request);
                 log.info("Delete {}", id);
-                mealRestController.delete(1, id);
+                mealRestController.delete(id);
                 response.sendRedirect("meals");
                 break;
             case "create":
             case "update":
                 final Meal meal = "create".equals(action) ?
                         new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        mealRestController.get(SecurityUtil.authUserId(), getId(request));
+                        mealRestController.get(getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
                 break;
@@ -101,7 +101,7 @@ public class MealServlet extends HttpServlet {
             default:
 
                 log.info("getAll");
-                request.setAttribute("meals", mealRestController.getAll(profileRestController.get(SecurityUtil.authUserId())));
+                request.setAttribute("meals", mealRestController.getAll());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }

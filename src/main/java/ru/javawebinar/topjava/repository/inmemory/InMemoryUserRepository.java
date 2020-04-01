@@ -63,10 +63,6 @@ public class InMemoryUserRepository implements UserRepository {
         Optional<User> user = repository.values().stream()
                 .filter(x -> x.getEmail().equals(email))
                 .findFirst();
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new NotFoundException(email + " is not found");
-        }
+        return user.orElse(null);
     }
 }

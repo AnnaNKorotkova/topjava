@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.util.ArrayList;
@@ -23,6 +24,10 @@ public class MealService {
     public Meal create(int userId, Meal meal) {
         return repository.save(userId, meal);
     }
+    public void update(int userId, Meal meal) {
+        checkNotFoundWithId(repository.save(userId, meal), meal.getId());
+    }
+
 
     public boolean delete(int userId, int id) {
         checkNotFoundWithId(repository.delete(userId, id), id);
