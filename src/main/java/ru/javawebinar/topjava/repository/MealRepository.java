@@ -17,5 +17,7 @@ public interface MealRepository {
     // null if not found
     Meal get(int userId, int mealId);
 
-    Collection<Meal> getAll(int userId, LocalDate startDate, LocalDate endDate);
+    Collection<Meal> getAll(int userId);
+
+    Collection<Meal> getAllFiltered(int userId, LocalDate startDate, LocalDate endDate);
 }

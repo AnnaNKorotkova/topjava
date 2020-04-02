@@ -44,7 +44,11 @@ public class MealServlet extends HttpServlet {
                         request.getParameter("description"),
                         Integer.parseInt(request.getParameter("calories")));
                 log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-                mealRestController.create(meal);
+                if (meal.isNew()) {
+                    mealRestController.create(meal);
+                } else {
+                    mealRestController.update(meal);
+                }
                 break;
             case "filter":
                 LocalTime slt;
@@ -79,7 +83,7 @@ public class MealServlet extends HttpServlet {
                     eld = null;
                 }
 
-                request.setAttribute("meals", mealRestController.getAllByTime(slt, elt, sld, eld));
+                request.setAttribute("meals", mealRestController.getAllFiltered(slt, elt, sld, eld));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
         }
         response.sendRedirect("meals");
@@ -108,7 +112,7 @@ public class MealServlet extends HttpServlet {
             default:
 
                 log.info("getAll");
-                request.setAttribute("meals", mealRestController.getAll(LocalDate.MIN, LocalDate.MAX));
+                request.setAttribute("meals", mealRestController.getAll());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Comparator;
 import java.util.List;
@@ -22,10 +21,11 @@ public class InMemoryUserRepository implements UserRepository {
 
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
 
-    private AtomicInteger counter = new AtomicInteger(0);
+    private AtomicInteger counter = new AtomicInteger(1);
 
     {
-        save(new User(null, "userName", "email@mail.ru", "password", Role.ROLE_ADMIN));
+        save(new User(1, "admin", "admin@mail.ru", "password", Role.ROLE_ADMIN));
+        save(new User(null, "user", "user@mail.ru", "password", Role.ROLE_USER));
     }
 
     @Override
