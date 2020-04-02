@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Java Enterprise (Topjava)</title>
@@ -10,13 +10,22 @@
     <li><a href="users">Users</a></li>
     <li><a href="meals">Meals</a></li>
 </ul>
-<form method="post" action="users" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="id" value="1">
-<button type="submit" class="confirmButton">Admin</button>
-</form>
-<form method="post" action="users" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="id" value="2">
-    <button type="submit" class="confirmButton">User</button>
-</form>
+<table>
+    <tr>
+        <td>
+            <form method="post" action="users" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="id" value="1">
+                <button type="submit" class="confirmButton">Admin</button>
+            </form>
+        </td>
+
+        <td>
+            <form method="post" action="users" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="id" value="2">
+                <button type="submit" class="confirmButton">User</button>
+            </form>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
