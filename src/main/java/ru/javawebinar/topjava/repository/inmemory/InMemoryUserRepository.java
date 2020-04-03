@@ -21,10 +21,10 @@ public class InMemoryUserRepository implements UserRepository {
 
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
 
-    private AtomicInteger counter = new AtomicInteger(1);
+    private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        save(new User(1, "admin", "admin@mail.ru", "password", Role.ROLE_ADMIN));
+        save(new User(null, "admin", "admin@mail.ru", "password", Role.ROLE_ADMIN));
         save(new User(null, "user", "user@mail.ru", "password", Role.ROLE_USER));
     }
 

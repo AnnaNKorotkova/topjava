@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 @Repository
 public class InMemoryMealRepository implements MealRepository {
@@ -55,19 +59,19 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Collection<Meal> getAll(int userId) {
 
-        return repository.get(userId) == null ? new ArrayList<>() :
-                repository.get(userId).values().stream()
-                        .sorted(Comparator.comparing(Meal::getDateTime).reversed())
+        return repository.get(userId) == null ? new ArrayList<>() : getStream(userId)
                         .collect(Collectors.toList());
     }
 
     @Override
     public Collection<Meal> getAllFiltered(int userId, LocalDate startDate, LocalDate endDate) {
 
-        return repository.get(userId) == null ? new ArrayList<>() :
-                repository.get(userId).values().stream()
+        return repository.get(userId) == null ? new ArrayList<>() : getStream(userId)
                         .filter(meal -> DateTimeUtil.isBetweenInclusive(meal.getDate(), startDate, endDate))
-                        .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                         .collect(Collectors.toList());
+    }
+    private Stream<Meal> getStream(int userId){
+        return repository.get(userId).values().stream()
+                        .sorted(Comparator.comparing(Meal::getDateTime).reversed());
     }
 }

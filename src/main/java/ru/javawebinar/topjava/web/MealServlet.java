@@ -51,37 +51,18 @@ public class MealServlet extends HttpServlet {
                 }
                 break;
             case "filter":
-                LocalTime slt;
                 String startTime = request.getParameter("startTime");
-                if (startTime != null && startTime.trim().length() > 4) {
-                    slt = LocalTime.parse(startTime);
-                } else {
-                    slt = null;
-                }
+                LocalTime slt =
+                        takeDateTime(startTime, x -> LocalTime.parse(startTime));
 
-                LocalTime elt;
                 String endTime = request.getParameter("endTime");
-                if (endTime != null && endTime.trim().length() > 4) {
-                    elt = LocalTime.parse(endTime);
-                } else {
-                    elt = null;
-                }
+                LocalTime elt = takeDateTime(endTime, x -> LocalTime.parse(endTime));
 
-                LocalDate sld;
                 String startDate = request.getParameter("startDate");
-                if (startDate != null && startDate.trim().length() > 4) {
-                    sld = LocalDate.parse(startDate);
-                } else {
-                    sld = null;
-                }
+                LocalDate sld = takeDateTime(startDate, x -> LocalDate.parse(startDate));
 
-                LocalDate eld;
                 String endDate = request.getParameter("endDate");
-                if (endDate != null && endDate.trim().length() > 4) {
-                    eld = LocalDate.parse(endDate);
-                } else {
-                    eld = null;
-                }
+                LocalDate eld = takeDateTime(endDate, x -> LocalDate.parse(endDate));
 
                 request.setAttribute("meals", mealRestController.getAllFiltered(slt, elt, sld, eld));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
@@ -127,5 +108,17 @@ public class MealServlet extends HttpServlet {
     private int getId(HttpServletRequest request) {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
         return Integer.parseInt(paramId);
+    }
+
+    private interface DateTimeParse<T> {
+        T parse(String param);
+    }
+
+    private <T> T takeDateTime(String param, DateTimeParse<T> takeDateTimeInt) {
+        if (param != null && param.trim().length() > 4) {
+            return takeDateTimeInt.parse(param);
+        } else {
+            return null;
+        }
     }
 }
