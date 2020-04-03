@@ -1,23 +1,23 @@
 package ru.javawebinar.topjava.repository;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Collection;
 
 public interface MealRepository {
-    // null if updated meal do not belong to userId
-    Meal save(Meal meal, int userId);
+    // null if not found, when updated
+    Meal save(int userId, Meal meal);
 
-    // false if meal do not belong to userId
-    boolean delete(int id, int userId);
+    // false if not found
+    boolean delete(int userId, int mealId);
 
-    // null if meal do not belong to userId
-    Meal get(int id, int userId);
+    // null if not found
+    Meal get(int userId, int mealId);
 
-    // ORDERED dateTime desc
-    List<Meal> getAll(int userId);
+    Collection<Meal> getAll(int userId);
 
-    // ORDERED dateTime desc
-    List<Meal> getBetweenHalfOpen(LocalDateTime startDate, LocalDateTime endDate, int userId);
+    Collection<Meal> getAllFiltered(int userId, LocalDate startDate, LocalDate endDate);
 }
