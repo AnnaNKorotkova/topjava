@@ -25,7 +25,7 @@
         <!--DB-->
         <postgresql.version>42.2.10</postgresql.version>
         <!--    Tests  -->
-        <junit.version>4.13</junit.version>
+        <junit.version>5.6.1</junit.version>
     </properties>
 
     <build>
@@ -110,8 +110,9 @@
 
         <!--Test-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
