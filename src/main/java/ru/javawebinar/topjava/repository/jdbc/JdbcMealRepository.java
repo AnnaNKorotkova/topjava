@@ -25,9 +25,6 @@ public class JdbcMealRepository implements MealRepository {
 
     private SimpleJdbcInsert insertMeal;
 
-    public JdbcMealRepository() {
-    }
-
     @Autowired
     public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)

@@ -24,9 +24,6 @@ public class JdbcUserRepository implements UserRepository {
 
     private SimpleJdbcInsert insertUser;
 
-//    public JdbcUserRepository() {
-//    }
-
     @Autowired
     public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertUser = new SimpleJdbcInsert(jdbcTemplate)

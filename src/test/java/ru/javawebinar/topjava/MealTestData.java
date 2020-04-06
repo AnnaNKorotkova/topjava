@@ -4,8 +4,6 @@ import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class MealTestData {
 
     public static final Meal MEAL_1 = new Meal(null, LocalDateTime.parse("2020-04-04T07:00"), "Завтрак", 500);
@@ -28,13 +26,5 @@ public class MealTestData {
         updated.setDescription("new_Завтрак");
         updated.setCalories(501);
         return updated;
-    }
-
-    public static void assertMatch(Meal actual, Meal expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "id");
-    }
-
-    public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("id").isEqualTo(expected);
     }
 }
