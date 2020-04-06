@@ -24,10 +24,6 @@ public class MealRestController {
 
     private MealService service;
 
-    public MealRestController() {
-    }
-
-    @Autowired
     public MealRestController(MealService service) {
         this.service = service;
     }

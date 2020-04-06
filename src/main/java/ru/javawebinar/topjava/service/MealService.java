@@ -17,13 +17,8 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 @Service
 public class MealService {
 
-    @Qualifier("JdbcMealRepository")
     private MealRepository repository;
 
-    public MealService() {
-    }
-
-    @Autowired
     public MealService(MealRepository repository) {
         this.repository = repository;
     }
