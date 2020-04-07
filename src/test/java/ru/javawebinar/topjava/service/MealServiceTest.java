@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,8 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
 @ContextConfiguration({
-        "classpath:spring/spring-app-for-jdbc.xml",
+        "classpath:spring/spring-app-context.xml",
+        "classpath:spring/spring-app-jdbc.xml",
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringRunner.class)
@@ -39,7 +39,7 @@ public class MealServiceTest {
         Meal mealDb = service.get(id, USER_ID);
         Meal mealTest = new Meal(MEAL_1);
         mealTest.setId(id);
-        Assert.assertEquals(mealDb, mealTest);
+        assertMatch(mealDb, mealTest);
     }
 
     @Test(expected = NotFoundException.class)
@@ -79,7 +79,7 @@ public class MealServiceTest {
         for (int i = 0; i < mealsInTestDataFiltered.size(); i++) {
             mealsInTestDataFiltered.get(i).setId(START_SEQ + 2 + i);
         }
-        Assert.assertEquals(mealsInDataBaseFiltered, mealsInTestDataFiltered);
+        assertMatch(mealsInDataBaseFiltered, mealsInTestDataFiltered);
     }
 
     @Test
@@ -90,14 +90,14 @@ public class MealServiceTest {
         for (int i = 0; i < allInTestData.size(); i++) {
             allInTestData.get(i).setId(START_SEQ + 2 + i);
         }
-        Assert.assertEquals(allInDataBase, allInTestData);
+        assertMatch(allInDataBase, allInTestData);
     }
 
     @Test
     public void update() {
         Meal updated = getUpdated();
         service.update(updated, USER_ID);
-        Assert.assertEquals(service.get(updated.getId(), USER_ID), updated);
+        assertMatch(service.get(updated.getId(), USER_ID), updated);
     }
 
     @Test(expected = NotFoundException.class)
@@ -119,8 +119,8 @@ public class MealServiceTest {
         Meal created = service.create(newMeal, USER_ID);
         Integer newId = created.getId();
         newMeal.setId(newId);
-        Assert.assertEquals(created, newMeal);
-        Assert.assertEquals(service.get(newId, USER_ID), newMeal);
+        assertMatch(created, newMeal);
+        assertMatch(service.get(newId, USER_ID), newMeal);
     }
 
     @Test(expected = DuplicateKeyException.class)
