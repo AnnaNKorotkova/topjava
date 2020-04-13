@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class JpaMealRepository implements MealRepository {
 
     @PersistenceContext
@@ -22,9 +21,6 @@ public class JpaMealRepository implements MealRepository {
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
-        if (meal.getUser().getId() != userId) {
-            return null;
-        }
         User ref = em.getReference(User.class, userId);
         if (meal.isNew()) {
             meal.setUser(ref);

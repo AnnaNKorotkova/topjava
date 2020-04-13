@@ -6,6 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -20,10 +21,12 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.Month;
 
+import static org.slf4j.LoggerFactory.getLogger;
 import static ru.javawebinar.topjava.ForJunitRulesTimeWatch.*;
 import static ru.javawebinar.topjava.MealTestData.*;
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.USER;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
+import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -33,6 +36,8 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+
+    private final static Logger LOG = getLogger(MealServiceTest.class);
 
     @Rule
     public ForJunitRulesTimeWatch timeWatch = new ForJunitRulesTimeWatch();
@@ -52,11 +57,11 @@ public class MealServiceTest {
 
     @AfterClass
     public static void afterClass() {
-        float allTestTime = (float) Math.floor(allTime / Math.pow(10, 6)) / 1000;
-        System.out.println("=================================================================================");
-        System.out.println(className);
-        System.out.println(passed + " tests was passed, " + failed + " tests was failed, all tests was completed in " + allTestTime + " sec.");
-        System.out.println("=================================================================================");
+        LOG.info("\n=================================================================================\n" +
+                String.join("\n", testResult) +
+                "\n=================================================================================\n" +
+                "All " + finished + " tests was finished in " + Math.round(allTime / 1000_000) + " ms" +
+                "\n=================================================================================\n");
     }
 
     @Test
@@ -80,7 +85,7 @@ public class MealServiceTest {
 
     @Test
     public void create() throws Exception {
-        Meal newMeal = getCreated();
+        Meal newMeal = new Meal(getCreated(), USER);
         Meal created = service.create(newMeal, USER_ID);
         Integer newId = created.getId();
         newMeal.setId(newId);
@@ -108,7 +113,7 @@ public class MealServiceTest {
 
     @Test
     public void update() throws Exception {
-        Meal updated = getUpdated();
+        Meal updated = new Meal(MEAL1, USER);
         service.update(updated, USER_ID);
         MEAL_MATCHER.assertMatch(service.get(MEAL1_ID, USER_ID), updated);
     }
@@ -116,7 +121,8 @@ public class MealServiceTest {
     @Test
     public void updateNotFound() throws Exception {
         expExc.expect(NotFoundException.class);
-        service.update(MEAL1, ADMIN_ID);
+        Meal meal = new Meal(MEAL1, USER);
+        service.update(meal, ADMIN_ID);
     }
 
     @Test

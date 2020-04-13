@@ -4,30 +4,29 @@ import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class ForJunitRulesTimeWatch extends Stopwatch {
     private final static Logger LOG = getLogger(ForJunitRulesTimeWatch.class);
-    public static short passed = 0;
-    public static short failed = 0;
+    public static List<String> testResult = new ArrayList<>();
+    public static short finished = 0;
     public static long allTime = 0L;
 
     @Override
-    public void succeeded(long nanos, Description description) {
-        passed++;
+    protected void finished(long nanos, Description description) {
+        finished++;
         allTime += nanos;
-        float testTime = (float) Math.floor(nanos / Math.pow(10, 6)) / 1000;
+        int stringLengthCompensation = 35 - description.getMethodName().length();
+        String message = "test " + description.getMethodName()
+                + String.join("", Collections.nCopies(stringLengthCompensation, " "))
+                + Math.round(nanos / 1000_000) + "\tms";
         LOG.info("\n=================================================================================\n" +
-                "The test '" + description.getMethodName() + "' was passed in " + testTime + " sec.\n"
-                + "=================================================================================");
-    }
-
-    @Override
-    protected void failed(long nanos, Throwable e, Description description) {
-        failed++;
-        allTime += nanos;
-        LOG.info("\n=================================================================================\n" +
-                "The test '" + description.getMethodName() + "' was failed."
+                message
                 + "\n=================================================================================");
+        testResult.add(message);
     }
 }
