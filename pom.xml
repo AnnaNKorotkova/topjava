@@ -55,48 +55,10 @@
                     <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.jacoco</groupId>-->
-<!--                <artifactId>jacoco-maven-plugin</artifactId>-->
-<!--                <version>0.8.5</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>prepare-agent</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>report</id>-->
-<!--                        <phase>test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>report</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 
     <dependencies>
-<!--        &lt;!&ndash; JaCoCo test new features &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.jacoco</groupId>-->
-<!--            <artifactId>jacoco-maven-plugin</artifactId>-->
-<!--            <version>0.8.5</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.jacoco</groupId>-->
-<!--            <artifactId>org.jacoco.core</artifactId>-->
-<!--            <version>0.8.5</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.jacoco</groupId>-->
-<!--            <artifactId>org.jacoco.agent</artifactId>-->
-<!--            <version>0.8.5</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-
-
 
         <!-- Logging with SLF4J & LogBack -->
         <dependency>
@@ -118,6 +80,12 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
         </dependency>
 
         <!-- Spring -->
@@ -143,7 +111,6 @@
             <artifactId>hsqldb</artifactId>
             <version>2.3.4</version>
         </dependency>
-
 
         <!--- ORM -->
         <dependency>

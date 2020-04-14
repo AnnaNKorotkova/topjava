@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -20,13 +22,12 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.javawebinar.topjava.ForJunitRulesTimeWatch.*;
 import static ru.javawebinar.topjava.MealTestData.*;
-import static ru.javawebinar.topjava.UserTestData.USER;
-import static ru.javawebinar.topjava.UserTestData.USER_ID;
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.*;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -57,11 +58,11 @@ public class MealServiceTest {
 
     @AfterClass
     public static void afterClass() {
-        LOG.info("\n=================================================================================\n" +
-                String.join("\n", testResult) +
-                "\n=================================================================================\n" +
-                "All " + finished + " tests was finished in " + Math.round(allTime / 1000_000) + " ms" +
-                "\n=================================================================================\n");
+        String allTestResult = String.format("\nAll %2d tests was finished in %20d ms",
+                finished, TimeUnit.NANOSECONDS.toMillis(allTime));
+        Marker marker = MarkerFactory.getMarker("allRestResult");
+        String formatMessage = delimiter + String.join("", testResult) + delimiter + allTestResult + delimiter;
+        LOG.info(marker, colorTo(formatMessage, 35));
     }
 
     @Test
