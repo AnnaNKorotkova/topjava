@@ -25,6 +25,7 @@ public class ForJunitRulesTimeWatch extends Stopwatch {
         allTime += nanos;
         String message = String.format("\ntest %-35s %8d ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
         Marker marker = MarkerFactory.getMarker("results");
+//        LOG.info(marker, colorTo(delimiter + message + delimiter, 32));
         LOG.info(marker, delimiter + message + delimiter);
         testResult.add(message);
     }

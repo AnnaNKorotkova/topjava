@@ -62,7 +62,8 @@ public class MealServiceTest {
                 finished, TimeUnit.NANOSECONDS.toMillis(allTime));
         Marker marker = MarkerFactory.getMarker("allTestResult");
         String formatMessage = delimiter + String.join("", testResult) + delimiter + allTestResult + delimiter;
-        LOG.info(marker, colorTo(formatMessage, 35));
+//        LOG.info(marker, colorTo(formatMessage, 35));
+        LOG.info(marker, formatMessage);
     }
 
     @Test
