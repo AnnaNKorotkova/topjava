@@ -38,7 +38,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
-    private final static Logger LOG = getLogger(MealServiceTest.class);
+    private final static Logger LOG = getLogger("allTests");
 
     @Rule
     public ForJunitRulesTimeWatch timeWatch = new ForJunitRulesTimeWatch();
@@ -60,9 +60,9 @@ public class MealServiceTest {
     public static void afterClass() {
         String allTestResult = String.format("\nAll %2d tests was finished in %20d ms",
                 finished, TimeUnit.NANOSECONDS.toMillis(allTime));
-        Marker marker = MarkerFactory.getMarker("allRestResult");
+        Marker marker = MarkerFactory.getMarker("results");
         String formatMessage = delimiter + String.join("", testResult) + delimiter + allTestResult + delimiter;
-        LOG.info(marker, colorTo(formatMessage, 35));
+        LOG.info(marker, formatMessage);
     }
 
     @Test

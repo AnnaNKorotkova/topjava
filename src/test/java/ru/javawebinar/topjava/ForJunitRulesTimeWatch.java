@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class ForJunitRulesTimeWatch extends Stopwatch {
-    private final static Logger LOG = getLogger(ForJunitRulesTimeWatch.class);
+    private final static Logger LOG = getLogger("singleTest");
     public static List<String> testResult = new ArrayList<>();
     public static short finished = 0;
     public static long allTime = 0L;
@@ -24,8 +24,8 @@ public class ForJunitRulesTimeWatch extends Stopwatch {
         finished++;
         allTime += nanos;
         String message = String.format("\ntest %-35s %8d ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
-        Marker marker = MarkerFactory.getMarker("currentTestResult");
-        LOG.info(marker, colorTo(delimiter + message + delimiter, 32));
+        Marker marker = MarkerFactory.getMarker("results");
+        LOG.info(marker, delimiter + message + delimiter);
         testResult.add(message);
     }
 
