@@ -60,7 +60,7 @@ public class MealServiceTest {
     public static void afterClass() {
         String allTestResult = String.format("\nAll %2d tests was finished in %20d ms",
                 finished, TimeUnit.NANOSECONDS.toMillis(allTime));
-        Marker marker = MarkerFactory.getMarker("allRestResult");
+        Marker marker = MarkerFactory.getMarker("allTestResult");
         String formatMessage = delimiter + String.join("", testResult) + delimiter + allTestResult + delimiter;
         LOG.info(marker, colorTo(formatMessage, 35));
     }
