@@ -81,7 +81,6 @@ public class MealServiceTest {
     public void deleteNotOwn() throws Exception {
         expExc.expect(NotFoundException.class);
         service.delete(MEAL1_ID, ADMIN_ID);
-
     }
 
     @Test
