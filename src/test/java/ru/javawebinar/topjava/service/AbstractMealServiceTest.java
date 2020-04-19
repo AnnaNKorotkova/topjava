@@ -16,10 +16,6 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 public abstract class AbstractMealServiceTest extends AbstractServiceTest {
 
-    public AbstractMealServiceTest(MealRepository repository) {
-        this.repository = repository;
-    }
-
     @Autowired
     private MealService service;
     @Autowired

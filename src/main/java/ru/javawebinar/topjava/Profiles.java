@@ -7,29 +7,7 @@ public class Profiles {
             JPA = "jpa",
             DATAJPA = "datajpa";
 
-//    public static final String REPOSITORY_IMPLEMENTATION = JPA;
-
-public static String getActiveRepoProfile() {
-    try {
-        Class.forName("ru.javawebinar.topjava.repository.datajpa.DataJpaMealRepository");
-        Class.forName("ru.javawebinar.topjava.repository.datajpa.DataUserMealRepository");
-        return DATAJPA;
-    } catch (ClassNotFoundException ex) {
-        try {
-            Class.forName("ru.javawebinar.topjava.repository.jpa.JpaMealRepository");
-            Class.forName("ru.javawebinar.topjava.repository.jpa.JpaUserRepository");
-            return JPA;
-        } catch (ClassNotFoundException e) {
-            try {
-                Class.forName("ru.javawebinar.topjava.repository.jdbc.JdbcMealRepository");
-                Class.forName("ru.javawebinar.topjava.repository.jdbc.JdbcUserRepository");
-                return JDBC;
-            } catch (ClassNotFoundException classNotFoundException) {
-                throw new IllegalStateException("Bean not found");
-            }
-        }
-    }
-}
+    public static final String REPOSITORY_IMPLEMENTATION = DATAJPA;
 
     public static final String
             POSTGRES_DB = "postgres",

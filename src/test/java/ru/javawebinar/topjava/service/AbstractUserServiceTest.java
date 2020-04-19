@@ -21,11 +21,6 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
     private UserService service;
     @Autowired
     private UserRepository repository;
-
-    public AbstractUserServiceTest(UserRepository repository) {
-        this.repository = repository;
-    }
-
     @Autowired
     private CacheManager cacheManager;
 
@@ -49,6 +44,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
         service.create(new User(null, "Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER));
     }
 
+    @Test
     public void delete() throws Exception {
         service.delete(USER_ID);
         Assert.assertNull(repository.get(USER_ID));

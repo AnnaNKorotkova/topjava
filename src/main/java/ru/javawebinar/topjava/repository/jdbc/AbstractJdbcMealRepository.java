@@ -18,18 +18,18 @@ import java.util.List;
 
 @Repository
 @Profile("jdbc")
-public class JdbcMealRepository implements MealRepository {
+public abstract class AbstractJdbcMealRepository extends AbstractJdbcRepository implements MealRepository {
 
-    private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
-
-    private  JdbcTemplate jdbcTemplate;
-
-    private  NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    private  SimpleJdbcInsert insertMeal;
+//    private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
+//
+//    private  JdbcTemplate jdbcTemplate;
+//
+//    private  NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+//
+//    private  SimpleJdbcInsert insertMeal;
 
     @Autowired
-    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public AbstractJdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
@@ -38,11 +38,11 @@ public class JdbcMealRepository implements MealRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public JdbcMealRepository() {
+    public AbstractJdbcMealRepository() {
     }
 
     @Override
-    public Meal save(Meal meal, int userId) {
+    public  Meal save(Meal meal, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", meal.getId())
                 .addValue("description", meal.getDescription())
