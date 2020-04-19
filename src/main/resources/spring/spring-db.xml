@@ -24,7 +24,7 @@
 
     <beans profile="postgres">
         <bean class="org.springframework.beans.factory.config.MethodInvokingBean"
-            p:staticMethod="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
+              p:staticMethod="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
 
         <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
         <bean id="dataSource"
@@ -65,7 +65,7 @@
     </beans>
 
     <beans profile="jdbc">
-        <context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>
+<!--               <context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>-->
         <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
             <constructor-arg ref="dataSource"/>
         </bean>
@@ -73,10 +73,20 @@
         <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
             <constructor-arg ref="jdbcTemplate"/>
         </bean>
+
+        <bean class="ru.javawebinar.topjava.repository.jdbc.JdbcUserRepository"/>
+
         <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
             <jdbc:script location="${jdbc.initLocation}"/>
             <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
         </jdbc:initialize-database>
+
+        <beans profile="postgres">
+            <bean class="ru.javawebinar.topjava.repository.jdbc.PostgresJdbcMealRepository"/>
+        </beans>
+        <beans profile="hsqldb">
+            <bean class="ru.javawebinar.topjava.repository.jdbc.HsqlDbJdbcMealRepository"/>
+        </beans>
     </beans>
 
     <beans profile="jpa">
@@ -88,4 +98,5 @@
         <context:component-scan base-package="ru.javawebinar.topjava.repository.datajpa"/>
         <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
     </beans>
+
 </beans>
