@@ -17,7 +17,7 @@ import java.util.List;
 
 @Repository
 @Profile("jdbc")
-public abstract class JdbcMealRepository implements MealRepository {
+public abstract class AbstractJdbcMealRepository<T> implements MealRepository {
 
     private static final BeanPropertyRowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
@@ -28,7 +28,7 @@ public abstract class JdbcMealRepository implements MealRepository {
     private final SimpleJdbcInsert insertMeal;
 
     @Autowired
-    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public AbstractJdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
@@ -86,5 +86,5 @@ public abstract class JdbcMealRepository implements MealRepository {
                 ROW_MAPPER, userId, converter(startDateTime), converter(endDateTime));
     }
 
-    protected abstract Object converter(LocalDateTime ldt);
+    protected abstract T converter(LocalDateTime ldt);
 }
