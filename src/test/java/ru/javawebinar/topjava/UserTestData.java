@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava;
 
-import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 
@@ -18,7 +17,7 @@ public class UserTestData {
     public static final int ADMIN_ID = START_SEQ + 1;
 
     public static final User USER = new User(USER_ID, "User", "user@yandex.ru", "password", Set.copyOf(MEALS), Role.ROLE_USER);
-    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Set.of(ADMIN_MEAL1, ADMIN_MEAL2),Role.ROLE_ADMIN);
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Set.of(ADMIN_MEAL1, ADMIN_MEAL2), Role.ROLE_ADMIN);
 
     public static User getNew() {
         return new User(null, "New", "new@gmail.com", "newPass", 1555, false, new Date(), null, Collections.singleton(Role.ROLE_USER));
