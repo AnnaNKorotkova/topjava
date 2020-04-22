@@ -4,16 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Repository
 @Profile("datajpa")
 public class DataJpaUserRepository implements UserRepository {
     private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
-
 
     @Autowired
     private CrudUserRepository crudRepository;
@@ -41,5 +43,10 @@ public class DataJpaUserRepository implements UserRepository {
     @Override
     public List<User> getAll() {
         return crudRepository.findAll(SORT_NAME_EMAIL);
+    }
+
+    @Override
+    public Set<Meal> getAllUserMeals(int userId) {
+        return Objects.requireNonNull(crudRepository.findById(userId).orElse(null)).getUserMeals();
     }
 }

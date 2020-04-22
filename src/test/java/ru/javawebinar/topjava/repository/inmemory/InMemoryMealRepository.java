@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.Util;
 
@@ -65,6 +66,11 @@ public class InMemoryMealRepository implements MealRepository {
         Objects.requireNonNull(startDateTime, "startDateTime must not be null");
         Objects.requireNonNull(endDateTime, "endDateTime must not be null");
         return getAllFiltered(userId, meal -> Util.isBetweenHalfOpen(meal.getDateTime(), startDateTime, endDateTime));
+    }
+
+    @Override
+    public User findUserByUserId(int userId) {
+        return null;
     }
 
     @Override
