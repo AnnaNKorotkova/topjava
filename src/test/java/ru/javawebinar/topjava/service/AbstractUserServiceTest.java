@@ -39,9 +39,11 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
         USER_MATCHER.assertMatch(service.get(newId), newUser);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test
     public void duplicateMailCreate() throws Exception {
-        service.create(new User(null, "Duplicate", "user@yandex.ru", "newPass", null, Role.ROLE_USER));
+    Assert.assertThrows(DataAccessException.class,
+            () -> service.create(new User(null, "Duplicate", "user@yandex.ru",
+                    "newPass", null, Role.ROLE_USER)));
     }
 
     @Test
@@ -50,9 +52,10 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
         Assert.assertNull(repository.get(USER_ID));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deletedNotFound() throws Exception {
-        service.delete(1);
+        Assert.assertThrows(NotFoundException.class,
+                () -> service.delete(1));
     }
 
     @Test

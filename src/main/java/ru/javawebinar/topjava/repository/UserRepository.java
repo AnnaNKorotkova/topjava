@@ -21,5 +21,7 @@ public interface UserRepository {
 
     List<User> getAll();
 
-    Set<Meal> getAllUserMeals(int userId);
+    default Set<Meal> getAllUserMeals(int userId) {
+        return null;
+    }
 }

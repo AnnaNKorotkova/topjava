@@ -41,12 +41,6 @@
     <build>
         <finalName>topjava</finalName>
         <defaultGoal>package</defaultGoal>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -100,13 +94,6 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring-data-jpa.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>5.2.5.RELEASE</version>
-        </dependency>
-
 
         <!--- ORM -->
         <dependency>
@@ -218,34 +205,7 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-<!--            <properties>-->
-<!--                <spring.profile.active>postgres</spring.profile.active>-->
-<!--            </properties>-->
         </profile>
-
-        <!--       -->
-<!--        <profile>-->
-<!--            <id>datajpa</id>-->
-<!--            <activation>-->
-<!--                <activeByDefault>true</activeByDefault>-->
-<!--            </activation>-->
-<!--            <properties>-->
-<!--                <spring.profiles.active>datajpa</spring.profiles.active>-->
-<!--            </properties>-->
-<!--        </profile>-->
-<!--        <profile>-->
-<!--            <id>jdbc</id>-->
-<!--            <properties>-->
-<!--                <spring.profiles.active>jdbc</spring.profiles.active>-->
-<!--            </properties>-->
-<!--        </profile>-->
-<!--        <profile>-->
-<!--            <id>jpa</id>-->
-<!--            <properties>-->
-<!--                <spring.profiles.active>jpa</spring.profiles.active>-->
-<!--            </properties>-->
-<!--        </profile>-->
-
     </profiles>
 
     <dependencyManagement>
