@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-import ru.javawebinar.topjava.model.Meal;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Repository
 @Profile("datajpa")
@@ -20,6 +18,7 @@ public class DataJpaUserRepository implements UserRepository {
     @Autowired
     private CrudUserRepository crudRepository;
 
+    @Transactional
     @Override
     public User save(User user) {
         return crudRepository.save(user);
@@ -46,7 +45,7 @@ public class DataJpaUserRepository implements UserRepository {
     }
 
     @Override
-    public Set<Meal> getAllUserMeals(int userId) {
-        return Objects.requireNonNull(crudRepository.findById(userId).orElse(null)).getUserMeals();
+    public User getTrueUser(int userId) {
+        return crudRepository.getTrueUser(userId);
     }
 }

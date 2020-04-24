@@ -2,14 +2,12 @@ package ru.javawebinar.topjava.repository.inmemory;
 
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.UserTestData;
-import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.UserTestData.ADMIN;
@@ -30,11 +28,6 @@ public class InMemoryUserRepository extends InMemoryBaseRepository<User> impleme
         return getCollection().stream()
                 .sorted(Comparator.comparing(User::getName).thenComparing(User::getEmail))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Set<Meal> getAllUserMeals(int userId) {
-        return null;
     }
 
     @Override

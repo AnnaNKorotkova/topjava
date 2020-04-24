@@ -15,7 +15,7 @@ import java.util.List;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
-public abstract class AbstractUserServiceTest extends AbstractServiceTest{
+public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Autowired
     private UserService service;
@@ -41,9 +41,9 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
 
     @Test
     public void duplicateMailCreate() throws Exception {
-    Assert.assertThrows(DataAccessException.class,
-            () -> service.create(new User(null, "Duplicate", "user@yandex.ru",
-                    "newPass", null, Role.ROLE_USER)));
+        Assert.assertThrows(DataAccessException.class,
+                () -> service.create(new User(null, "Duplicate", "user@yandex.ru",
+                        "newPass", null, Role.ROLE_USER)));
     }
 
     @Test

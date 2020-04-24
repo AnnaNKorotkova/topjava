@@ -1,10 +1,8 @@
 package ru.javawebinar.topjava.repository;
 
-import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
-import java.util.Set;
 
 public interface UserRepository {
     // null if not found, when updated
@@ -21,7 +19,7 @@ public interface UserRepository {
 
     List<User> getAll();
 
-    default Set<Meal> getAllUserMeals(int userId) {
+    default User getTrueUser(int userId) {
         return null;
     }
 }

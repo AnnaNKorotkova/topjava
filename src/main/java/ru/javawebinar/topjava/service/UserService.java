@@ -4,12 +4,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.List;
-import java.util.Set;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
@@ -54,10 +52,11 @@ public class UserService {
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
-    @Cacheable("users")
-    public Set<Meal> getAllUserMeals(int userId) {
+    //@Cacheable("users")
+//    @CacheEvict(value = "users", allEntries = true)
+    public User getTrueUser(int userId) {
         Assert.notNull(userId, "UserId must not be null");
-        return repository.getAllUserMeals(userId);
+        return repository.getTrueUser(userId);
     }
 
 }

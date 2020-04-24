@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
@@ -21,11 +20,16 @@ public class DataJpaMealRepository implements MealRepository {
     @Transactional
     @Override
     public Meal save(Meal meal, int userId) {
-
-        if (meal.getId() != null && crudRepository.get(meal.getId(), userId)  == null) {
-            return null;
+        Integer id = meal.getId();
+        if (id != null) {
+            if (crudRepository.get(id, userId) == null) {
+                return null;
+            }
+            // Для update можно взять пользователя из сохраненной еды.
+            meal.setUser(crudRepository.getWithUser(id, userId).getUser());
         }
-        meal.setUser(crudRepository.getUserById(userId));
+        // Но как взять пользователя для новой еды, не нарушая принципов, не могу пока понять как.
+        meal.setUser(crudRepository.getById(userId));
         return crudRepository.save(meal);
     }
 
@@ -50,7 +54,7 @@ public class DataJpaMealRepository implements MealRepository {
     }
 
     @Override
-    public User findUserByUserId(int userId) {
-        return crudRepository.getUserById(userId);
+    public Meal getWithUser(int id, int userId) {
+        return crudRepository.getWithUser(id, userId);
     }
 }
