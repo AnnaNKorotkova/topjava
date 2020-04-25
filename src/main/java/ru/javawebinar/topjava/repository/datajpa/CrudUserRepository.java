@@ -20,5 +20,5 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.id=?1")
     @EntityGraph(attributePaths = "userMeals")
-    User getTrueUser(int userId);
+    User getUserWithMeals(int userId);
 }

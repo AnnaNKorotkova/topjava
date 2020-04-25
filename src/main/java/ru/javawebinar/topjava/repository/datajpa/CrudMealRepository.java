@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +35,4 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Query("SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
     @EntityGraph(attributePaths = "user")
     Meal getWithUser(@Param("id") int id, @Param("userId") int userId);
-
-    @Query("SELECT u FROM User u WHERE u.id=:userId")
-    User getById(@Param("userId") int id);
 }

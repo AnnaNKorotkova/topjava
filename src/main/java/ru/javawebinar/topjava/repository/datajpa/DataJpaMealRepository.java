@@ -15,46 +15,42 @@ import java.util.List;
 public class DataJpaMealRepository implements MealRepository {
 
     @Autowired
-    private CrudMealRepository crudRepository;
+    private CrudMealRepository crudMealRepository;
+    @Autowired
+    private CrudUserRepository crudUserRepository;
 
     @Transactional
     @Override
     public Meal save(Meal meal, int userId) {
-        Integer id = meal.getId();
-        if (id != null) {
-            if (crudRepository.get(id, userId) == null) {
-                return null;
-            }
-            // Для update можно взять пользователя из сохраненной еды.
-            meal.setUser(crudRepository.getWithUser(id, userId).getUser());
+        if (meal.getId() != null && crudMealRepository.get(meal.getId(), userId) == null) {
+            return null;
         }
-        // Но как взять пользователя для новой еды, не нарушая принципов, не могу пока понять как.
-        meal.setUser(crudRepository.getById(userId));
-        return crudRepository.save(meal);
+        meal.setUser(crudUserRepository.getOne(userId));
+        return crudMealRepository.save(meal);
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        return crudRepository.delete(id, userId) != 0;
+        return crudMealRepository.delete(id, userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        return crudRepository.get(id, userId);
+        return crudMealRepository.get(id, userId);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.getAll(userId);
+        return crudMealRepository.getAll(userId);
     }
 
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return crudRepository.getBetweenHalfOpen(startDateTime, endDateTime, userId);
+        return crudMealRepository.getBetweenHalfOpen(startDateTime, endDateTime, userId);
     }
 
     @Override
     public Meal getWithUser(int id, int userId) {
-        return crudRepository.getWithUser(id, userId);
+        return crudMealRepository.getWithUser(id, userId);
     }
 }

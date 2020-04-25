@@ -52,11 +52,10 @@ public class UserService {
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
-    //@Cacheable("users")
-//    @CacheEvict(value = "users", allEntries = true)
-    public User getTrueUser(int userId) {
+    @Cacheable("users")
+    public User getUserWithMeals(int userId) {
         Assert.notNull(userId, "UserId must not be null");
-        return repository.getTrueUser(userId);
+        return checkNotFoundWithId(repository.getUserWithMeals(userId), userId);
     }
 
 }

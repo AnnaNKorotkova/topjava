@@ -8,10 +8,10 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.AbstractMealServiceTest;
 import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import static ru.javawebinar.topjava.MealTestData.ADMIN_MEAL1;
-import static ru.javawebinar.topjava.UserTestData.ADMIN;
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.*;
 
 @ActiveProfiles("datajpa")
 public class DatajpaMealServiceTest extends AbstractMealServiceTest {
@@ -20,9 +20,16 @@ public class DatajpaMealServiceTest extends AbstractMealServiceTest {
     private MealService service;
 
     @Test
-    public void findUserMeals() throws Exception {
+    public void getWithUser() throws Exception {
         Meal meal = service.getWithUser(ADMIN_MEAL1.getId(), ADMIN_ID);
         User user = meal.getUser();
         Assert.assertEquals(user, ADMIN);
+    }
+
+    @Test
+    public void notFoundWithUser() throws Exception {
+        Assert.assertThrows(NotFoundException.class, () ->
+                service.getWithUser(ADMIN_MEAL1.getId(), USER_ID)
+        );
     }
 }
