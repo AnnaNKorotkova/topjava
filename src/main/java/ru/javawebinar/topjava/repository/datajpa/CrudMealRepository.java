@@ -10,6 +10,7 @@ import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
@@ -32,7 +33,7 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
                                   @Param("endDateTime") LocalDateTime endDateTime,
                                   @Param("userId") int userId);
 
-    @Query("SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
-    @EntityGraph(attributePaths = "user")
+    @Query("FROM Meal m JOIN fetch m.user WHERE m.id=:id AND m.user.id=:userId")
+   // @EntityGraph(attributePaths = "user")
     Meal getWithUser(@Param("id") int id, @Param("userId") int userId);
 }
