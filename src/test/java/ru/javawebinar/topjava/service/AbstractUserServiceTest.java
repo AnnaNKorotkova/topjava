@@ -88,11 +88,13 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         User updated = getUpdated();
         service.update(updated);
         USER_MATCHER.assertMatch(service.get(USER_ID), updated);
+        System.out.println(10);
     }
 
     @Test
     public void getAll() throws Exception {
         List<User> all = service.getAll();
+//        System.out.println(USER.getRoles().toString());
         USER_MATCHER.assertMatch(all, ADMIN, USER);
     }
 
