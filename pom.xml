@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -33,6 +33,8 @@
         <hibernate.version>5.4.12.Final</hibernate.version>
         <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
         <javax-el.version>3.0.1-b11</javax-el.version>
+
+        <validation.version>2.0.1.Final</validation.version>
 
         <!--Tools-->
         <ehcache.version>3.8.1</ehcache.version>
@@ -126,6 +128,13 @@
             <version>1.3.2</version>
         </dependency>
 
+        <!-- Validation -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation.version}</version>
+        </dependency>
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -147,6 +156,11 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator-annotation-processor</artifactId>
+            <version>6.0.2.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -171,7 +185,7 @@
         <dependency>
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-<!--            <scope>runtime</scope>-->
+            <!--            <scope>runtime</scope>-->
             <version>${ehcache.version}</version>
         </dependency>
 

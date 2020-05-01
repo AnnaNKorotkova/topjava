@@ -2,14 +2,17 @@ package ru.javawebinar.topjava;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.GenericXmlApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.StandardEnvironment;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
+import ru.javawebinar.topjava.repository.jdbc.JdbcUserRepository;
+
+import javax.validation.Validator;
 
 public class SpringMain {
+    @Autowired
+    static Validator validator;
+    @Autowired
+    static JdbcUserRepository jdbcUserRepository;
 
     public static void main(String[] args) {
-
 
         // java 7 automatic resource management
         try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext()) {
@@ -17,23 +20,7 @@ public class SpringMain {
             appCtx.load("spring/spring-app.xml", "spring/spring-db.xml");
             appCtx.refresh();
 
-            System.out.println("\n\n");
-//            cenv.setActiveProfiles("ddd");
-            System.getProperties().list(System.out);
-            System.out.println("\n\n!!!!!!!!!" + System.getProperty("spring.active.profile") + "\n\n");
-//            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
-//            AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
-//            adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ROLE_ADMIN));
-//            System.out.println();
-//
-//            MealRestController mealController = appCtx.getBean(MealRestController.class);
-//            List<MealTo> filteredMealsWithExcess =
-//                    mealController.getBetween(
-//                            LocalDate.of(2020, Month.JANUARY, 30), LocalTime.of(7, 0),
-//                            LocalDate.of(2020, Month.JANUARY, 31), LocalTime.of(11, 0));
-//            filteredMealsWithExcess.forEach(System.out::println);
-//            System.out.println();
-//            System.out.println(mealController.getBetween(null, null, null, null));
+            jdbcUserRepository = appCtx.getBean(JdbcUserRepository.class);
         }
     }
 }

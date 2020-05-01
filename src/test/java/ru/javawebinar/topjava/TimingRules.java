@@ -12,10 +12,6 @@ public class TimingRules {
     private static final Logger log = LoggerFactory.getLogger("result");
 
     private static StringBuilder results = new StringBuilder();
-
-    //    https://dzone.com/articles/applying-new-jdk-11-string-methods
-    private static String DELIM = "-".repeat(103);
-
     // http://stackoverflow.com/questions/14892125/what-is-the-best-practice-to-determine-the-execution-time-of-the-bussiness-relev
     public static final Stopwatch STOPWATCH = new Stopwatch() {
         @Override
@@ -25,7 +21,8 @@ public class TimingRules {
             log.info(result + " ms\n");
         }
     };
-
+    //    https://dzone.com/articles/applying-new-jdk-11-string-methods
+    private static String DELIM = "-".repeat(103);
     public static final ExternalResource SUMMARY = new ExternalResource() {
         @Override
         protected void before() throws Throwable {

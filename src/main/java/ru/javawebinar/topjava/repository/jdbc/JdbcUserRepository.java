@@ -10,11 +10,13 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
-import java.sql.Date;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -32,6 +34,12 @@ public class JdbcUserRepository implements UserRepository {
 
     private final SimpleJdbcInsert insertUser;
 
+    private final Validator validator;
+
+    {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
 
     @Autowired
     public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -45,8 +53,10 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     @Transactional
     public User save(User user) {
+        if (validator.validate(user).size() > 0) {
+            throw new ConstraintViolationException(validator.validate(user));
+        }
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
-
         if (user.isNew()) {
             int newKey = insertUser.executeAndReturnKey(parameterSource).intValue();
             user.setId(newKey);
@@ -67,7 +77,7 @@ public class JdbcUserRepository implements UserRepository {
             jdbcTemplate.batchUpdate(
                     "UPDATE users SET name=?, email=?, password=?, " +
                             "registered=?, enabled=?, calories_per_day=?  WHERE id=?", new BatchPreparedStatementSetter() {
-                        
+
                         @Override
                         public void setValues(PreparedStatement ps, int i) throws SQLException {
                             ps.setString(1, user.getName());

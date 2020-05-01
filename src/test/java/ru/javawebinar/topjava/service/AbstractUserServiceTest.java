@@ -1,16 +1,16 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.JpaUtil;
 import ru.javawebinar.topjava.repository.UserRepository;
-import ru.javawebinar.topjava.util.ProfileConstrain;
+import ru.javawebinar.topjava.repository.jdbc.JdbcUserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
@@ -19,23 +19,24 @@ import java.util.List;
 import java.util.Set;
 
 import static ru.javawebinar.topjava.UserTestData.*;
+
+@ActiveProfiles("noCache")
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected UserService service;
-
+    @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    protected JpaUtil jpaUtil;
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private UserRepository repository;
-
     @Autowired
     private CacheManager cacheManager;
 
-    @Autowired
-    @ProfileConstrain
-    protected JpaUtil jpaUtil;
 
     @Before
+    @ConditionalOnMissingBean(value = JdbcUserRepository.class)
     public void setUp() throws Exception {
         cacheManager.getCache("users").clear();
         jpaUtil.clear2ndLevelHibernateCache();
@@ -94,7 +95,6 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void getAll() throws Exception {
         List<User> all = service.getAll();
-//        System.out.println(USER.getRoles().toString());
         USER_MATCHER.assertMatch(all, ADMIN, USER);
     }
 

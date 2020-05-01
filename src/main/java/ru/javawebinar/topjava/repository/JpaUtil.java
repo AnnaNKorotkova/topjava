@@ -2,7 +2,6 @@ package ru.javawebinar.topjava.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import ru.javawebinar.topjava.util.ProfileConstrain;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
