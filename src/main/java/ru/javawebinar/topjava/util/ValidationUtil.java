@@ -2,7 +2,14 @@ package ru.javawebinar.topjava.util;
 
 
 import ru.javawebinar.topjava.model.AbstractBaseEntity;
+import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 public class ValidationUtil {
 
@@ -53,5 +60,18 @@ public class ValidationUtil {
             result = cause;
         }
         return result;
+    }
+
+    public static <T> T validModel (T object){
+
+        final Validator validator;
+
+            ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+            validator = validatorFactory.getValidator();
+
+               if (validator.validate(object).size() > 0) {
+                   throw new ConstraintViolationException(validator.validate(object));
+
+        } return object;
     }
 }

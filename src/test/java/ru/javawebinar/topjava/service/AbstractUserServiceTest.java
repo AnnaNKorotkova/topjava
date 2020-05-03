@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.model.Role;
@@ -21,17 +23,18 @@ import java.util.Set;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
-@ActiveProfiles("noCache")
+
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected UserService service;
-    @Autowired
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    protected JpaUtil jpaUtil;
+//    @Autowired
+//    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+//    protected JpaUtil jpaUtil;
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private UserRepository repository;
+
     @Autowired
     private CacheManager cacheManager;
 
@@ -39,7 +42,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Before
     public void setUp() throws Exception {
         cacheManager.getCache("users").clear();
-        jpaUtil.clear2ndLevelHibernateCache();
+//        jpaUtil.clear2ndLevelHibernateCache();
     }
 
     @Test
@@ -69,8 +72,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void get() throws Exception {
-        User user = service.get(USER_ID);
-        USER_MATCHER.assertMatch(user, USER);
+        User user = service.get(ADMIN_ID);
+        USER_MATCHER.assertMatch(user, ADMIN);
     }
 
     @Test(expected = NotFoundException.class)
@@ -80,8 +83,9 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void getByEmail() throws Exception {
-        User user = service.getByEmail("user@yandex.ru");
-        USER_MATCHER.assertMatch(user, USER);
+        User user = service.getByEmail("admin@gmail.com");
+        User user1 = user;
+        USER_MATCHER.assertMatch(user, ADMIN);
     }
 
     @Test
