@@ -13,13 +13,7 @@
     <hr>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
 
-    <c:if test="${meal.id == null}">
-        <h2><spring:message code="mealf.createMode"/></h2>
-    </c:if>
-
-    <c:if test="${meal.id != null}">
-        <h2><spring:message code="mealf.editMode"/></h2>
-    </c:if>
+    <h2><spring:message code="${meal.id == null ? 'mealf.createMode' : 'mealf.editMode'}"/></h2>
 
     <form method="post" action="${pageContext.request.contextPath}/meals">
         <input type="hidden" name="id" value="${meal.id}">
