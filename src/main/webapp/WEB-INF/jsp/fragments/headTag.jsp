@@ -7,4 +7,5 @@
     <title><spring:message code="app.title"/></title>
     <base href="${pageContext.request.contextPath}/"/>
     <link rel="stylesheet" href="resources/css/style.css">
+    <link rel="icon" href="data:;base64,=">
 </head>
