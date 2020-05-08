@@ -49,4 +49,12 @@
         <property name="basenames" value="file:///#{systemEnvironment['TOPJAVA_ROOT']}/config/messages/app"/>
         <property name="fallbackToSystemLocale" value="false"/>
     </bean>
+
+    <bean class="ru.javawebinar.topjava.util.LocalDateFormatter">
+        <constructor-arg name="pattern" value="yyyy-MM-dd"/>
+    </bean>
+
+    <bean class="ru.javawebinar.topjava.util.LocalTimeFormatter">
+        <constructor-arg name="pattern" value="HH:mm"/>
+    </bean>
 </beans>

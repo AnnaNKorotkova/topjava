@@ -44,8 +44,4 @@ public class TestMatcher<T> {
     public ResultMatcher contentJson(Iterable<T> expected) {
         return result -> assertMatch(readListFromJsonMvcResult(result, clazz), expected);
     }
-
-    public void assertMatch(List<MealTo> actual, List<MealTo> list) {
-        assertThat(actual).usingElementComparatorIgnoringFields(fieldsToIgnore).isEqualTo(list);
-    }
 }

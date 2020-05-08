@@ -1,26 +1,36 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.LocalDateFormatter;
+import ru.javawebinar.topjava.util.LocalTimeFormatter;
 
 import java.net.URI;
+import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(MealRestController.REST_URL)
 public class MealRestController extends AbstractMealController {
 
     static final String REST_URL = "/rest/meals";
+
+    @Autowired(required = false)
+    LocalDateFormatter localDateFormatter;
+
+    @Autowired(required = false)
+    LocalTimeFormatter localTimeFormatter;
 
     @Override
     @GetMapping("/{id}")
@@ -41,10 +51,10 @@ public class MealRestController extends AbstractMealController {
         return super.getAll();
     }
 
-//    @Override
+    //    @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal) {
-       Meal newMeal = super.create(meal);
+        Meal newMeal = super.create(meal);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(newMeal.getId()).toUri();
@@ -58,11 +68,32 @@ public class MealRestController extends AbstractMealController {
         super.update(meal, id);
     }
 
+//    @GetMapping("/filter")
+//    public List<MealTo> getBetween(
+//                                   @Nullable @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+//                                   @Nullable @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
+//                                   @Nullable @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+//                                   @Nullable @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime) {
+//
+//        return super.getBetween(startDate, startTime, endDate, endTime);
+//    }
+
     @GetMapping("/filter")
-    public List<MealTo> getBetween(@Nullable @RequestParam("startDate")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                   @Nullable @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
-                                   @Nullable @RequestParam("endDate")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate endDate,
-                                   @Nullable @RequestParam("endTime")  @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)  LocalTime endTime) {
+    public List<MealTo> getBetween(@Nullable @RequestParam("startDate") String stringStartDate,
+                                   @Nullable @RequestParam("startTime") String stringStartTime,
+                                   @Nullable @RequestParam("endDate") String stringEndDate,
+                                   @Nullable @RequestParam("endTime") String stringEndTime) {
+
+        LocalDate startDate = null, endDate = null;
+        LocalTime startTime = null, endTime = null;
+        try {
+            startDate = StringUtils.isEmpty(stringStartDate) ? LocalDate.EPOCH : localDateFormatter.parse(stringStartDate, new Locale(""));
+            startTime = StringUtils.isEmpty(stringStartTime) ? LocalTime.MIN : localTimeFormatter.parse(stringStartTime, new Locale(""));
+            endDate = StringUtils.isEmpty(stringStartDate) ? LocalDate.now() : localDateFormatter.parse(stringEndDate, new Locale(""));
+            endTime = StringUtils.isEmpty(stringEndTime) ? LocalTime.MAX : localTimeFormatter.parse(stringEndTime, new Locale(""));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return super.getBetween(startDate, startTime, endDate, endTime);
     }
