@@ -1,13 +1,13 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <bean class="ru.javawebinar.topjava.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="objectMapper" ref="objectMapper"/>
@@ -32,17 +32,17 @@
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>
 
-<!--
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
-          p:cacheSeconds="60"
-          p:defaultEncoding="UTF-8">
-        <property name="basenames">
-            <list>
-                <value>messages/app</value>
-            </list>
-        </property>
-    </bean>
--->
+    <!--
+        <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+              p:cacheSeconds="60"
+              p:defaultEncoding="UTF-8">
+            <property name="basenames">
+                <list>
+                    <value>messages/app</value>
+                </list>
+            </property>
+        </bean>
+    -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
           p:cacheSeconds="5"
           p:defaultEncoding="UTF-8">
@@ -50,11 +50,22 @@
         <property name="fallbackToSystemLocale" value="false"/>
     </bean>
 
-    <bean class="ru.javawebinar.topjava.util.LocalDateFormatter">
-        <constructor-arg name="pattern" value="yyyy-MM-dd"/>
-    </bean>
-
-    <bean class="ru.javawebinar.topjava.util.LocalTimeFormatter">
-        <constructor-arg name="pattern" value="HH:mm"/>
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="registerDefaultFormatters" value="false"/>
+        <property name="formatters">
+            <set>
+                <bean class="ru.javawebinar.topjava.util.LocalTimeFormatter">
+                    <constructor-arg value="HH:mm"/>
+                </bean>
+                <bean class="ru.javawebinar.topjava.util.LocalDateFormatter">
+                    <constructor-arg value="yyyy-MM-dd"/>
+                </bean>
+            </set>
+        </property>
+        <property name="formatterRegistrars">
+            <set>
+                <bean class="ru.javawebinar.topjava.util.CustomFormatterRegistrar"/>
+            </set>
+        </property>
     </bean>
 </beans>

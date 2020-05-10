@@ -13,7 +13,7 @@ import static ru.javawebinar.topjava.Profiles.DATAJPA;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 
 @ActiveProfiles(DATAJPA)
-class DataJpaMealServiceTest extends AbstractMealServiceTest{
+class DataJpaMealServiceTest extends AbstractMealServiceTest {
     @Test
     void getWithUser() throws Exception {
         Meal adminMeal = service.getWithUser(ADMIN_MEAL_ID, ADMIN_ID);

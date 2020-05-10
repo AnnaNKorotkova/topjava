@@ -19,10 +19,10 @@ public class LocalDateFormatter implements Formatter<LocalDate> {
     @Override
     public LocalDate parse(@Nullable String text, Locale locale) throws ParseException {
 
-            if (text == null || text.length() == 0) {
-                return null;
-            }
-            return LocalDate.parse(text, DateTimeFormatter.ofPattern(this.pattern));
+        if (text == null || text.length() == 0) {
+            return null;
+        }
+        return LocalDate.parse(text, DateTimeFormatter.ofPattern(this.pattern));
     }
 
     @Override

@@ -1,9 +1,6 @@
 package ru.javawebinar.topjava.to;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class MealTo {
 

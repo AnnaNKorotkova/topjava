@@ -10,7 +10,6 @@ import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -63,7 +62,7 @@ public abstract class AbstractMealController {
      * </ol>
      */
     public List<MealTo> getBetween(@Nullable LocalDate startDate, @Nullable LocalTime startTime,
-                                            @Nullable LocalDate endDate, @Nullable LocalTime endTime)  {
+                                   @Nullable LocalDate endDate, @Nullable LocalTime endTime) {
         int userId = SecurityUtil.authUserId();
         log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
 
