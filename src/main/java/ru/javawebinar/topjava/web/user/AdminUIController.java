@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.web.SecurityUtil;
 
 import java.util.List;
 
@@ -36,5 +37,14 @@ public class AdminUIController extends AbstractUserController {
         if (user.isNew()) {
             super.create(user);
         }
+    }
+
+    @PostMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void checkEnable(@PathVariable int id, @RequestParam String status) {
+        boolean b = Boolean.valueOf(status);
+        User user = super.get(id);
+        user.setEnabled(b);
+        super.update(user, SecurityUtil.authUserId());
     }
 }

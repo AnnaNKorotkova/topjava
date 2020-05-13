@@ -1,8 +1,9 @@
-var context, form;
+var context, form, formMeal;
 
 function makeEditable(ctx) {
     context = ctx;
     form = $('#detailsForm');
+    formMeal = $('#filter');
     $(".delete").click(function () {
         if (confirm('Are you sure?')) {
             deleteRow($(this).attr("id"));
