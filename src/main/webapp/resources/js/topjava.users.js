@@ -46,7 +46,7 @@ function checkEnable(checkBox, userId) {
         $.ajax({
             url: context.ajaxUrl + userId,
             type: "POST",
-            data: {"status": $(this).is(":checked") ? "true" : "false"}
+            data: ({status: $(this).is(":checked") ? "true" : "false"})
         }).done(function () {
             updateTable();
         });
