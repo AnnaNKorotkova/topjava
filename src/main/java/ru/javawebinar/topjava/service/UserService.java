@@ -3,7 +3,10 @@ package ru.javawebinar.topjava.service;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
@@ -54,5 +57,15 @@ public class UserService {
 
     public User getWithMeals(int id) {
         return checkNotFoundWithId(repository.getWithMeals(id), id);
+    }
+
+    @Transactional
+    public boolean checkEnable(int id, boolean status) {
+        User user = checkNotFoundWithId(repository.get(id), id);
+        if (user.isEnabled() != status) {
+            user.setEnabled(status);
+            repository.save(user);
+        }
+        return status;
     }
 }

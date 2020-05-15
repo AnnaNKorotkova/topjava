@@ -23,11 +23,11 @@ tr[data-mealExcess="true"] {
     color: red;
 }
 tr[check="false"] {
-    color: darkslateblue;
+    color: grey;
 }
 
 tr[check="true"] {
-    color: coral;
+    color: #fd6525;
 }
 
 .fa {

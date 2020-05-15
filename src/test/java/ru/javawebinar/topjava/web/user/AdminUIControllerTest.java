@@ -1,11 +1,9 @@
 package ru.javawebinar.topjava.web.user;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,9 +16,6 @@ class AdminUIControllerTest extends AbstractControllerTest {
 
     private final static String AJAX_URL = "/ajax/admin/users/";
 
-    @Autowired
-    private UserService service;
-
     @Test
     void checkEnable() throws Exception {
         boolean checkStatus = USER.isEnabled();
@@ -29,7 +24,7 @@ class AdminUIControllerTest extends AbstractControllerTest {
                 .param("status", switchedStatus)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andDo(print())
-                .andExpect(status().isNoContent());
-        assertEquals(!checkStatus, service.get(USER_ID).isEnabled());
+                .andExpect(status().isOk());
+        assertEquals(!checkStatus, userService.get(USER_ID).isEnabled());
     }
 }

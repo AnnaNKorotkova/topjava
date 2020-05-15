@@ -1,4 +1,3 @@
-// $(document).ready(function () {
 $(function () {
     makeEditable({
             ajaxUrl: "ajax/admin/users/",
@@ -47,8 +46,8 @@ function checkEnable(checkBox, userId) {
             url: context.ajaxUrl + userId,
             type: "POST",
             data: ({status: $(this).is(":checked") ? "true" : "false"})
-        }).done(function () {
-            updateTable();
+        }).done(function (data) {
+            $(checkBox).parent().parent().attr('check', data);
         });
     });
 }

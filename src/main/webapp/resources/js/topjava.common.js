@@ -1,9 +1,9 @@
-var context, form, formMeal;
+var context, form, filtersForm;
 
 function makeEditable(ctx) {
     context = ctx;
     form = $('#detailsForm');
-    formMeal = $('#filter');
+    filtersForm = $('#filter');
     $(".delete").click(function () {
         if (confirm('Are you sure?')) {
             deleteRow($(this).attr("id"));
@@ -33,20 +33,20 @@ function deleteRow(id) {
     });
 }
 
-function updateTable() {
-    $.get(context.ajaxUrl, function (data) {
+function updateTable(url, data) {
+    $.get(url, data.serialize(), function (data) {
         context.datatableApi.clear().rows.add(data).draw();
     });
 }
 
-function save() {
+function save(url, data) {
     $.ajax({
         type: "POST",
         url: context.ajaxUrl,
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable();
+        updateTable(url, data);
         successNoty("Saved");
     });
 }

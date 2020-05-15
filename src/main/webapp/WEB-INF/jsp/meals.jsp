@@ -32,15 +32,15 @@
         </dl>
 
     </form>
-        <button id="applyFilter" class="btn btn-primary" onclick="formFilter()">
-            <span class="fa fa"></span>
-            <spring:message code="meal.filter"/>
-        </button>
+    <button id="applyFilter" class="btn btn-primary" onclick="applyFilter()">
+        <span class="fa fa"></span>
+        <spring:message code="meal.filter"/>
+    </button>
 
-        <button class="btn btn-primary" onclick="clearFilter()">
-            <span class="fa fa"></span>
-            <spring:message code="meal.resetFilter"/>
-        </button>
+    <button class="btn btn-primary" onclick="clearFilter()">
+        <span class="fa fa"></span>
+        <spring:message code="meal.resetFilter"/>
+    </button>
 
     <%--</div>--%>
     <hr>
@@ -63,7 +63,7 @@
             </thead>
             <c:forEach items="${meals}" var="meal">
                 <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealTo"/>
-                <tr data-mealExcess="${meal.excess}">
+                <tr data-mealExcess="${meal.excess}" id=${meal.id}>
                     <td>
                             <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
                             <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
@@ -72,8 +72,9 @@
                     </td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
-                    <td><a href="meals/update?id=${meal.id}"><spring:message code="common.update"/></a></td>
-                    <td><a href="meals/delete?id=${meal.id}"><spring:message code="common.delete"/></a></td>
+                    <td><a class="edit" id="edit_id"><span class="fa fa-pencil"></span></a></td>
+                    <td><a class="del" id="delete_id" onclick="deleteMeal(${meal.id})"><span
+                            class="fa fa-remove"></span></a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -116,7 +117,7 @@
                     <span class="fa fa-close"></span>
                     <spring:message code="common.cancel"/>
                 </button>
-                <button type="button" class="btn btn-primary" onclick="save()">
+                <button type="button" class="btn btn-primary" onclick="save('ajax/meals/filter', $('#filter'))">
                     <span class="fa fa-check"></span>
                     <spring:message code="common.save"/>
                 </button>

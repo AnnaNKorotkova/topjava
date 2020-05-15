@@ -1,7 +1,8 @@
-// $(document).ready(function () {
+var filtersForm = $("#filter");
+
 $(function () {
     makeEditable({
-            ajaxUrl: "ajax/meals/filter",
+            ajaxUrl: "ajax/meals/",
             datatableApi: $("#mdatatable").DataTable({
                 "paging": false,
                 "info": true,
@@ -27,7 +28,7 @@ $(function () {
                 "order": [
                     [
                         0,
-                        "asc"
+                        "dsc"
                     ]
                 ]
             })
@@ -35,18 +36,21 @@ $(function () {
     );
 });
 
-function formFilter() {
-    $.ajax({
-        type: "GET",
-        url: context.ajaxUrl,
-        data: formMeal.serialize()
-    }).done(function (data) {
-        context.datatableApi.clear().rows.add(data).draw();
-    });
+function applyFilter() {
+    updateTable(context.ajaxUrl + "filter", filtersForm);
 }
 
 function clearFilter() {
-    $("#filter")[0].reset();
-    updateTable();
+    filtersForm[0].reset();
+    updateTable(context.ajaxUrl + "filter", filtersForm);
 }
 
+function deleteMeal(mealId) {
+    $.ajax({
+        type: "DELETE",
+        url: context.ajaxUrl + mealId,
+    }).done(function () {
+        updateTable(context.ajaxUrl + "filter", filtersForm)
+        successNoty("Deleted");
+    });
+}
