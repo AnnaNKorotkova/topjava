@@ -1,6 +1,7 @@
 $(function () {
     makeEditable({
             ajaxUrl: "ajax/admin/users/",
+            ajaxSaveUrl: "ajax/admin/users/",
             datatableApi: $("#datatable").DataTable({
                 "paging": false,
                 "info": true,
@@ -41,13 +42,19 @@ $(function () {
 });
 
 function checkEnable(checkBox, userId) {
+     $(checkBox).off('change');
+    var isEnable = $(checkBox).is(":checked");
     $(checkBox).change(function () {
         $.ajax({
             url: context.ajaxUrl + userId,
             type: "POST",
-            data: ({status: $(this).is(":checked") ? "true" : "false"})
-        }).done(function (data) {
+            data: ({status: isEnable}),
+        })
+            .done(function (data) {
             $(checkBox).parent().parent().attr('check', data);
-        });
+        })
+            .fail(function () {
+                $(checkBox).prop('checked', !isEnable);
+            });
     });
 }

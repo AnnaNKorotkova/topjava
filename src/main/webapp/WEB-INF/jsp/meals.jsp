@@ -73,7 +73,7 @@
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
                     <td><a class="edit" id="edit_id"><span class="fa fa-pencil"></span></a></td>
-                    <td><a class="del" id="delete_id" onclick="deleteMeal(${meal.id})"><span
+                    <td><a class="del" id="delete_id" onclick="deleteRow(${meal.id})"><span
                             class="fa fa-remove"></span></a></td>
                 </tr>
             </c:forEach>
@@ -117,7 +117,7 @@
                     <span class="fa fa-close"></span>
                     <spring:message code="common.cancel"/>
                 </button>
-                <button type="button" class="btn btn-primary" onclick="save('ajax/meals/filter', $('#filter'))">
+               <button type="button" class="btn btn-primary" onclick="save($('#filter'))">
                     <span class="fa fa-check"></span>
                     <spring:message code="common.save"/>
                 </button>

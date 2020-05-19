@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
@@ -40,7 +41,7 @@ public class AdminUIController extends AbstractUserController {
 
     @Override
     @PostMapping("/{id}")
-    public boolean checkEnable(@PathVariable int id, @RequestParam boolean status) {
+    public ResponseEntity<Boolean> checkEnable(@PathVariable int id, @RequestParam boolean status) {
         return super.checkEnable(id, status);
     }
 }

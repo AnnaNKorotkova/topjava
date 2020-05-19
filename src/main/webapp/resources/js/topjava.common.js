@@ -1,9 +1,8 @@
-var context, form, filtersForm;
+var context, form;
 
 function makeEditable(ctx) {
     context = ctx;
     form = $('#detailsForm');
-    filtersForm = $('#filter');
     $(".delete").click(function () {
         if (confirm('Are you sure?')) {
             deleteRow($(this).attr("id"));
@@ -25,28 +24,33 @@ function add() {
 
 function deleteRow(id) {
     $.ajax({
-        url: context.ajaxUrl + id,
+        url: context.ajaxSaveUrl + id,
         type: "DELETE"
-    }).done(function () {
-        updateTable();
+    }).done(function (data) {
+        $("#"+id).remove();
         successNoty("Deleted");
     });
 }
 
-function updateTable(url, data) {
-    $.get(url, data.serialize(), function (data) {
-        context.datatableApi.clear().rows.add(data).draw();
-    });
+function updateTable(data) {
+    $.get(context.ajaxUrl, data.serialize())
+        .done(function (data) {
+            reDraw(data);
+        })
 }
 
-function save(url, data) {
+function reDraw(data) {
+    context.datatableApi.clear().rows.add(data).draw();
+}
+
+function save(data) {
     $.ajax({
         type: "POST",
-        url: context.ajaxUrl,
+        url: context.ajaxSaveUrl,
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable(url, data);
+        updateTable(data)
         successNoty("Saved");
     });
 }

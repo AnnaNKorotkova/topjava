@@ -3,6 +3,8 @@ package ru.javawebinar.topjava.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 
@@ -49,8 +51,15 @@ public abstract class AbstractUserController {
         return service.getByEmail(email);
     }
 
-    public boolean checkEnable(int id, boolean status) {
-        log.info("checkEnablr {}", id);
-        return service.checkEnable(id, status);
+    public ResponseEntity<Boolean> checkEnable(int id, boolean status) {
+        log.info("checkEnable {}", id);
+        User user = service.get(id);
+        if (user.isEnabled() != status) {
+            user.setEnabled(status);
+            service.update(user);
+            return new ResponseEntity<>(status, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(status, HttpStatus.BAD_REQUEST);
+        }
     }
 }

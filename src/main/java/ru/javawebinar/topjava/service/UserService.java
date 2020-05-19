@@ -5,8 +5,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
@@ -60,12 +58,12 @@ public class UserService {
     }
 
     @Transactional
-    public boolean checkEnable(int id, boolean status) {
-        User user = checkNotFoundWithId(repository.get(id), id);
+    @Cacheable("users")
+    public void checkEnable(int id, boolean status) {
+        User user = get(id);
         if (user.isEnabled() != status) {
             user.setEnabled(status);
             repository.save(user);
         }
-        return status;
     }
 }
