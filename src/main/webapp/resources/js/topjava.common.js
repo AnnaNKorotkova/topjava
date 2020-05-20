@@ -24,7 +24,7 @@ function add() {
 
 function deleteRow(id) {
     $.ajax({
-        url: context.ajaxSaveUrl + id,
+        url: context.ajaxUrl + id,
         type: "DELETE"
     }).done(function (data) {
         $("#" + id).remove();
