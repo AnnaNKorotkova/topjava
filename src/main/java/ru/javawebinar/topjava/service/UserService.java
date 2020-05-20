@@ -58,7 +58,7 @@ public class UserService {
     }
 
     @Transactional
-    @Cacheable("users")
+    @CacheEvict(value = "users", allEntries = true)
     public void checkEnable(int id, boolean status) {
         User user = get(id);
         if (user.isEnabled() != status) {

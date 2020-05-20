@@ -27,30 +27,29 @@ function deleteRow(id) {
         url: context.ajaxSaveUrl + id,
         type: "DELETE"
     }).done(function (data) {
-        $("#"+id).remove();
+        $("#" + id).remove();
         successNoty("Deleted");
     });
 }
 
-function updateTable(data) {
-    $.get(context.ajaxUrl, data.serialize())
-        .done(function (data) {
-            reDraw(data);
-        })
+function updateTable() {
+    $.get(context.ajaxUrl, function (data) {
+        reDraw(data);
+    });
 }
 
 function reDraw(data) {
     context.datatableApi.clear().rows.add(data).draw();
 }
 
-function save(data) {
+function save() {
     $.ajax({
         type: "POST",
-        url: context.ajaxSaveUrl,
+        url: context.ajaxUrl,
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable(data)
+           updateTable();
         successNoty("Saved");
     });
 }

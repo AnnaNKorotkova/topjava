@@ -1,7 +1,6 @@
 $(function () {
     makeEditable({
             ajaxUrl: "ajax/admin/users/",
-            ajaxSaveUrl: "ajax/admin/users/",
             datatableApi: $("#datatable").DataTable({
                 "paging": false,
                 "info": true,
@@ -50,8 +49,8 @@ function checkEnable(checkBox, userId) {
             type: "POST",
             data: ({status: isEnable}),
         })
-            .done(function (data) {
-            $(checkBox).parent().parent().attr('check', data);
+            .done(function () {
+            $(checkBox).parent().parent().attr('check', isEnable);
         })
             .fail(function () {
                 $(checkBox).prop('checked', !isEnable);

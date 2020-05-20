@@ -32,7 +32,7 @@
         </dl>
 
     </form>
-    <button id="applyFilter" class="btn btn-primary" onclick="applyFilter()">
+    <button id="applyFilter" class="btn btn-primary" onclick="updateTable()">
         <span class="fa fa"></span>
         <spring:message code="meal.filter"/>
     </button>
@@ -117,7 +117,7 @@
                     <span class="fa fa-close"></span>
                     <spring:message code="common.cancel"/>
                 </button>
-               <button type="button" class="btn btn-primary" onclick="save($('#filter'))">
+               <button type="button" class="btn btn-primary" onclick="save()">
                     <span class="fa fa-check"></span>
                     <spring:message code="common.save"/>
                 </button>

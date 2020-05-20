@@ -51,15 +51,8 @@ public abstract class AbstractUserController {
         return service.getByEmail(email);
     }
 
-    public ResponseEntity<Boolean> checkEnable(int id, boolean status) {
+    public void checkEnable(int id, boolean status) {
         log.info("checkEnable {}", id);
-        User user = service.get(id);
-        if (user.isEnabled() != status) {
-            user.setEnabled(status);
-            service.update(user);
-            return new ResponseEntity<>(status, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(status, HttpStatus.BAD_REQUEST);
-        }
-    }
+        service.checkEnable(id, status);
+      }
 }

@@ -1,8 +1,8 @@
 var filtersForm = $("#filter");
 $(function () {
     makeEditable({
-            ajaxUrl: "ajax/meals/filter",
-            ajaxSaveUrl: "ajax/meals/",
+            ajaxUrl: "ajax/meals/",
+            ajaxFilterUrl: "ajax/meals/filter",
             datatableApi: $("#mdatatable").DataTable({
                 "paging": false,
                 "info": true,
@@ -36,11 +36,15 @@ $(function () {
     );
 });
 
-function applyFilter() {
-    updateTable(filtersForm);
-}
-
 function clearFilter() {
     filtersForm[0].reset();
     updateTable();
 }
+
+function updateTable() {
+    $.get(context.ajaxFilterUrl, filtersForm.serialize())
+        .done(function (data) {
+            reDraw(data);
+        })
+}
+
