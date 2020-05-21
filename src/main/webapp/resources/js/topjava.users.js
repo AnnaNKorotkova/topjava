@@ -57,3 +57,9 @@ function checkEnable(checkBox, userId) {
             });
     });
 }
+
+function updateTable() {
+    $.get(context.ajaxUrl, function (data) {
+        reDraw(data);
+    });
+}

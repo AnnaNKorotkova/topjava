@@ -32,12 +32,6 @@ function deleteRow(id) {
     });
 }
 
-function updateTable() {
-    $.get(context.ajaxUrl, function (data) {
-        reDraw(data);
-    });
-}
-
 function reDraw(data) {
     context.datatableApi.clear().rows.add(data).draw();
 }
