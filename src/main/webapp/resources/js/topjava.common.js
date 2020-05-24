@@ -1,5 +1,22 @@
 var context, form;
 
+$("input[type='dateform']").datetimepicker({
+    timepicker:false,
+    format:'Y-m-d',
+    });
+
+$("input[type='timeform']").datetimepicker({
+    timepicker:true,
+    datepicker:false,
+    format:'H:m',
+});
+
+$("input[type='datetime']").datetimepicker({
+    format: 'Y-m-d H:m',
+    closeOnDateSelect: true
+
+});
+
 function makeEditable(ctx) {
     context = ctx;
     form = $('#detailsForm');
@@ -40,6 +57,7 @@ function deleteRow(id) {
 }
 
 function updateTableByData(data) {
+    context.datatableApi.clear().rows.add(data).draw();
     context.datatableApi.clear().rows.add(data).draw();
 }
 

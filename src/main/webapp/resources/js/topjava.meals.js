@@ -1,3 +1,5 @@
+var mealAjaxUrl = "ajax/profile/meals/";
+
 function updateFilteredTable() {
     $.ajax({
         type: "GET",
@@ -8,34 +10,63 @@ function updateFilteredTable() {
 
 function clearFilter() {
     $("#filter")[0].reset();
-    $.get("ajax/profile/meals/", updateTableByData);
+    $.get(mealAjaxUrl, updateTableByData);
 }
 
 $(function () {
     makeEditable({
-        ajaxUrl: "ajax/profile/meals/",
+        ajaxUrl: mealAjaxUrl,
         datatableApi: $("#datatable").DataTable({
+            "ajax": {
+                "url": mealAjaxUrl,
+                "dataSrc": ""
+            },
             "paging": false,
             "info": true,
             "columns": [
                 {
-                    "data": "dateTime"
+                    "data": "dateTime",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                             var dataObject = new Date(data);
+                             return dataObject.toLocaleString();
+                        }
+                        return data;
+                    }
                 },
                 {
-                    "data": "description"
+                    "data": "description",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return data ;
+                        }
+                        return data;
+                    }
                 },
                 {
-                    "data": "calories"
+                    "data": "calories",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return data ;
+                        }
+                        return data;
+                    }
                 },
                 {
-                    "defaultContent": "Edit",
-                    "orderable": false
+                    "orderable": false,
+                    "defaultContent": "",
+                    "render": renderEditBtn
                 },
                 {
-                    "defaultContent": "Delete",
-                    "orderable": false
+                    "orderable": false,
+                    "defaultContent": "",
+                    "render": renderDeleteBtn
                 }
             ],
+            "createdRow": function (row, data, dataIndex) {
+                $(row).attr("data-mealExcess", data.excess);
+
+            },
             "order": [
                 [
                     0,
@@ -46,3 +77,21 @@ $(function () {
         updateTable: updateFilteredTable
     });
 });
+
+function save() {
+    $.ajax({
+        type: "POST",
+        url: context.ajaxUrl,
+        data: withReplaceSpaceOnT()
+    }).done(function () {
+        $("#editRow").modal("hide");
+        context.updateTable();
+        successNoty("common.saved");
+    });
+}
+
+function withReplaceSpaceOnT() {
+    var dateTimeRow = $("#dateTime")
+    dateTimeRow.val(dateTimeRow.val().replace(" ", "T"));
+    return form.serialize();
+}
