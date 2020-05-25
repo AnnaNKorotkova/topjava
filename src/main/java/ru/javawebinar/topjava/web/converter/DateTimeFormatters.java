@@ -43,7 +43,7 @@ public class DateTimeFormatters {
 
         @Override
         public LocalDateTime parse(String s, Locale locale) throws ParseException {
-            return parseLocalDateTime(s);
+            return parseLocalDateTime(s.replace(' ','T'));
         }
 
         @Override

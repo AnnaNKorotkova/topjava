@@ -35,22 +35,11 @@ $(function () {
                     }
                 },
                 {
-                    "data": "description",
-                    "render": function (data, type, row) {
-                        if (type === "display") {
-                            return data ;
-                        }
-                        return data;
-                    }
+                    "data": "description"
                 },
                 {
-                    "data": "calories",
-                    "render": function (data, type, row) {
-                        if (type === "display") {
-                            return data ;
-                        }
-                        return data;
-                    }
+                    "data": "calories"
+
                 },
                 {
                     "orderable": false,
@@ -78,20 +67,20 @@ $(function () {
     });
 });
 
-function save() {
-    $.ajax({
-        type: "POST",
-        url: context.ajaxUrl,
-        data: withReplaceSpaceOnT()
-    }).done(function () {
-        $("#editRow").modal("hide");
-        context.updateTable();
-        successNoty("common.saved");
-    });
-}
 
-function withReplaceSpaceOnT() {
-    var dateTimeRow = $("#dateTime")
-    dateTimeRow.val(dateTimeRow.val().replace(" ", "T"));
-    return form.serialize();
-}
+$("input[type='dateform']").datetimepicker({
+    timepicker:false,
+    format:'Y-m-d',
+});
+
+$("input[type='timeform']").datetimepicker({
+    timepicker:true,
+    datepicker:false,
+    format:'H:m',
+});
+
+$("input[type='datetime']").datetimepicker({
+    format: 'Y-m-d H:m',
+    closeOnDateSelect: true
+
+});
