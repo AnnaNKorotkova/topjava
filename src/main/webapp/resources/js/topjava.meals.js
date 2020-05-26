@@ -27,11 +27,7 @@ $(function () {
                 {
                     "data": "dateTime",
                     "render": function (data, type, row) {
-                        if (type === "display") {
-                             var dataObject = new Date(data);
-                             return dataObject.toLocaleString();
-                        }
-                        return data;
+                        return data.replace('T', ' ');
                     }
                 },
                 {
@@ -67,16 +63,15 @@ $(function () {
     });
 });
 
-
 $("input[type='dateform']").datetimepicker({
-    timepicker:false,
-    format:'Y-m-d',
+    timepicker: false,
+    format: 'Y-m-d',
 });
 
 $("input[type='timeform']").datetimepicker({
-    timepicker:true,
-    datepicker:false,
-    format:'H:m',
+    timepicker: true,
+    datepicker: false,
+    format: 'H:m',
 });
 
 $("input[type='datetime']").datetimepicker({
