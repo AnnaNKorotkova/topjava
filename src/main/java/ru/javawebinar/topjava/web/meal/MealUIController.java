@@ -13,7 +13,6 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.StringJoiner;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.getStringResponseEntity;
 
@@ -51,7 +50,6 @@ public class MealUIController extends AbstractMealController {
         }
         return ResponseEntity.ok().build();
     }
-
 
     @Override
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
