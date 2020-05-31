@@ -3,11 +3,12 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<script type="text/javascript" src="resources/js/topjava.local.js" defer></script>
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark py-0">
     <div class="container">
         <a href="meals" class="navbar-brand"><img src="resources/images/icon-meal.png"> <spring:message
                 code="app.title"/></a>
+        <base href="/"/>
         <sec:authorize access="isAuthenticated()">
             <div class="collapse navbar-collapse" id="navbarNav">
 
@@ -27,8 +28,8 @@
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle nav-link my-1 ml-2" data-toggle="dropdown">ru</a>
                         <div class="dropdown-menu" id="locales">
-                            <a class="dropdown-item" href="javascript:getPath(en)">English</a>
-                            <a class="dropdown-item" href="javascript:getPath(ru)">Русский</a>
+                            <a class="dropdown-item" href="?lang=en">English</a>
+                            <a class="dropdown-item" href="?lang=ru">Русский</a>
                         </div>
                     </li>
                 </ul>
