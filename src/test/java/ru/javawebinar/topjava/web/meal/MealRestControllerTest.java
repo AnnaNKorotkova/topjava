@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.web.meal;
 
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -84,6 +85,23 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void noValidUpdate() throws Exception {
+        Meal updated = MealTestData.getUpdated();
+        updated.setCalories(0);
+        updated.setDescription("  ");
+        String response = perform(MockMvcRequestBuilders.put(REST_URL + MEAL1_ID).contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(USER)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        Assertions.assertTrue(response.contains("\"type\":\"VALIDATION_ERROR\""));
+    }
+
+    @Test
     void createWithLocation() throws Exception {
         Meal newMeal = MealTestData.getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
@@ -96,6 +114,35 @@ class MealRestControllerTest extends AbstractControllerTest {
         newMeal.setId(newId);
         MEAL_MATCHER.assertMatch(created, newMeal);
         MEAL_MATCHER.assertMatch(mealService.get(newId, USER_ID), newMeal);
+    }
+
+    @Test
+    void noValidCreateWithLocation() throws Exception {
+        Meal newMeal = MealTestData.getNew();
+        newMeal.setCalories(2);
+        String response = getResponseString(newMeal, REST_URL);
+        Assertions.assertTrue(response.contains("\"type\":\"VALIDATION_ERROR\""));
+    }
+
+    @Test
+    void duplicateTimeCreateWithLocation() throws Exception {
+        Meal newMeal = MealTestData.getNew();
+        newMeal.setDateTime(MEAL3.getDateTime());
+        String response = getResponseString(newMeal, REST_URL);
+        Assertions.assertTrue(response.contains("You can't add one more meal at the same time"));
+    }
+
+    private String getResponseString(Meal newMeal, String url) throws Exception {
+        return perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newMeal))
+                .with(userHttpBasic(USER)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
     }
 
     @Test

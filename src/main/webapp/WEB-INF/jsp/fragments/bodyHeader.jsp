@@ -3,19 +3,36 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<nav class="navbar navbar-dark bg-dark py-0">
+<script type="text/javascript" src="resources/js/topjava.local.js" defer></script>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark py-0">
     <div class="container">
-        <a href="meals" class="navbar-brand"><img src="resources/images/icon-meal.png"> <spring:message code="app.title"/></a>
+        <a href="meals" class="navbar-brand"><img src="resources/images/icon-meal.png"> <spring:message
+                code="app.title"/></a>
         <sec:authorize access="isAuthenticated()">
-            <form:form class="form-inline my-2" action="logout" method="post">
-                <sec:authorize access="hasRole('ADMIN')">
-                    <a class="btn btn-info mr-1" href="users"><spring:message code="user.title"/></a>
-                </sec:authorize>
-                <a class="btn btn-info mr-1" href="profile">${userTo.name} <spring:message code="app.profile"/></a>
-                <button class="btn btn-primary my-1" type="submit">
-                    <span class="fa fa-sign-out"></span>
-                </button>
-            </form:form>
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <form:form class="form-inline my-2" action="logout" method="post">
+                            <sec:authorize access="hasRole('ADMIN')">
+                                <a class="btn btn-info mr-1" href="users"><spring:message code="user.title"/></a>
+                            </sec:authorize>
+                            <a class="btn btn-info mr-1" href="profile">${userTo.name} <spring:message
+                                    code="app.profile"/></a>
+                            <button class="btn btn-primary my-1" type="submit">
+                                <span class="fa fa-sign-out"></span>
+                            </button>
+                        </form:form>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle nav-link my-1 ml-2" data-toggle="dropdown">ru</a>
+                        <div class="dropdown-menu" id="locales">
+                            <a class="dropdown-item" href="javascript:getPath(en)">English</a>
+                            <a class="dropdown-item" href="javascript:getPath(ru)">Русский</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </sec:authorize>
         <sec:authorize access="isAnonymous()">
             <form:form class="form-inline my-2" id="login_form" action="spring_security_check" method="post">
