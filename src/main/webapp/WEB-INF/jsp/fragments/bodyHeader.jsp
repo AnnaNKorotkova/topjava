@@ -8,7 +8,7 @@
     <div class="container">
         <a href="meals" class="navbar-brand"><img src="resources/images/icon-meal.png"> <spring:message
                 code="app.title"/></a>
-        <base href="/"/>
+<%--        <base href="/"/>--%>
         <sec:authorize access="isAuthenticated()">
             <div class="collapse navbar-collapse" id="navbarNav">
 
@@ -26,14 +26,16 @@
                         </form:form>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="dropdown-toggle nav-link my-1 ml-2" data-toggle="dropdown">ru</a>
+                        <a class="dropdown-toggle nav-link my-1 ml-2" id="dropDownLang" data-toggle="dropdown">ru</a>
+
                         <div class="dropdown-menu" id="locales">
-                            <a class="dropdown-item" href="?lang=en">English</a>
-                            <a class="dropdown-item" href="?lang=ru">Русский</a>
+                            <a class="dropdown-item" onclick="setlang('en')" href="${requestScope['javax.servlet.forward.request_uri']}?lang=en">English</a>
+                            <a class="dropdown-item" onclick="setlang('ru')" href="${requestScope['javax.servlet.forward.request_uri']}?lang=ru">Русский</a>
                         </div>
                     </li>
                 </ul>
             </div>
+
         </sec:authorize>
         <sec:authorize access="isAnonymous()">
             <form:form class="form-inline my-2" id="login_form" action="spring_security_check" method="post">
