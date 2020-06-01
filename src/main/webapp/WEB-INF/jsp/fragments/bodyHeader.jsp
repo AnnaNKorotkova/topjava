@@ -8,7 +8,7 @@
     <div class="container">
         <a href="meals" class="navbar-brand"><img src="resources/images/icon-meal.png"> <spring:message
                 code="app.title"/></a>
-<%--        <base href="/"/>--%>
+        <%--        <base href="/"/>--%>
         <sec:authorize access="isAuthenticated()">
             <div class="collapse navbar-collapse" id="navbarNav">
 
@@ -29,8 +29,10 @@
                         <a class="dropdown-toggle nav-link my-1 ml-2" id="dropDownLang" data-toggle="dropdown">ru</a>
 
                         <div class="dropdown-menu" id="locales">
-                            <a class="dropdown-item" onclick="setlang('en')" href="${requestScope['javax.servlet.forward.request_uri']}?lang=en">English</a>
-                            <a class="dropdown-item" onclick="setlang('ru')" href="${requestScope['javax.servlet.forward.request_uri']}?lang=ru">Русский</a>
+                            <a class="dropdown-item" onclick="setLang('en')"
+                               href="${requestScope['javax.servlet.forward.request_uri']}?lang=en">English</a>
+                            <a class="dropdown-item" onclick="setLang('ru')"
+                               href="${requestScope['javax.servlet.forward.request_uri']}?lang=ru">Русский</a>
                         </div>
                     </li>
                 </ul>
@@ -48,3 +50,17 @@
         </sec:authorize>
     </div>
 </nav>
+
+<script>
+    if (sessionStorage.getItem('codeLang') === null) {
+        lang = window.navigator.language.slice(0, 2);
+        sessionStorage.setItem('codeLang', lang);
+        window.location.href = window.location.toString() + "?lang=" + lang;
+    }
+
+    document.getElementById("dropDownLang").innerHTML = sessionStorage.getItem('codeLang');
+
+    function setLang(lang) {
+        sessionStorage.setItem('codeLang', lang);
+    }
+</script>

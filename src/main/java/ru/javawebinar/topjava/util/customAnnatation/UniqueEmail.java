@@ -14,4 +14,4 @@ public @interface UniqueEmail {
     String message() default "User with this email already exists";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-} 
+}

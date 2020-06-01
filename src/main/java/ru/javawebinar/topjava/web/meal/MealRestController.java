@@ -8,7 +8,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javawebinar.topjava.model.Meal;
@@ -29,11 +28,6 @@ public class MealRestController extends AbstractMealController {
 
     @Autowired(required = false)
     private Validator mealValidator;
-
-//    @InitBinder
-//    public  void  bindFields(WebDataBinder binder){
-//        binder.setValidator(mealValidator);
-//    }
 
     @Override
     @GetMapping("/{id}")

@@ -1,17 +1,13 @@
 package ru.javawebinar.topjava.util.customValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -19,7 +15,6 @@ public class MealValidator  implements org.springframework.validation.Validator 
 
     @Autowired
     private  MealRepository mealRepository;
-
 
     @Override
     public boolean supports(Class<?>    clazz) {
@@ -38,6 +33,5 @@ public class MealValidator  implements org.springframework.validation.Validator 
                errors.rejectValue("dateTime", "OneTime","You can't add one more meal at the same time");
            }
        }
-
     }
 }

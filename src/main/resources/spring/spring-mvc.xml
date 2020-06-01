@@ -67,7 +67,7 @@
           p:cacheSeconds="5"
           p:defaultEncoding="UTF-8">
         <property name="basenames" value="file:///#{systemEnvironment['TOPJAVA_ROOT']}/config/messages/app"/>
-        <!--        <property name="fallbackToSystemLocale" value="false"/>-->
+                <property name="fallbackToSystemLocale" value="false"/>
     </bean>
 
     <mvc:interceptors>
@@ -85,11 +85,5 @@
 
     <bean id="localeResolver"
           class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-        <property name="defaultLocale" value="en"/>
     </bean>
-
-<!--    <bean id="urlMapping"-->
-<!--          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">-->
-<!--    <property name="interceptors" ref="localeChangeInterceptor"/>-->
-<!--    </bean>-->
 </beans>
