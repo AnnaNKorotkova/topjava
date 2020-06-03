@@ -51,12 +51,12 @@ public class MealRestController extends AbstractMealController {
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody @Validated Meal meal, @PathVariable int id) {
+    public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
          super.update(meal, id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Meal> createWithLocation(@RequestBody @Valid Meal meal, BindingResult result) {
+    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal, BindingResult result) {
         mealValidator.validate(meal,result);
         if (result.hasErrors()) {
             throw new IllegalRequestDataException(ValidationUtil.getFieldsErrors(result));

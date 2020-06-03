@@ -1,18 +1,13 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
-import ru.javawebinar.topjava.util.ValidationUtil;
-import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -20,9 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/ajax/profile/meals")
 public class MealUIController extends AbstractMealController {
-
-    @Autowired(required = false)
-    private Validator mealValidator;
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,11 +36,7 @@ public class MealUIController extends AbstractMealController {
     }
 
     @PostMapping
-    public void createOrUpdate(@Valid Meal meal, BindingResult result) {
-        mealValidator.validate(meal, result);
-        if (result.hasErrors()) {
-            throw new IllegalRequestDataException(ValidationUtil.getFieldsErrors(result));
-        }
+    public void createOrUpdate(@Validated Meal meal) {
         if (meal.isNew()) {
             super.create(meal);
         } else {

@@ -10,7 +10,7 @@ import ru.javawebinar.topjava.web.SecurityUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 public class MealValidator  implements org.springframework.validation.Validator {
 
     @Autowired

@@ -96,8 +96,18 @@ function successNoty(key) {
 function failNoty(jqXHR) {
     closeNoty();
     var errorInfo = JSON.parse(jqXHR.responseText);
+
+    var notyText;
+    if (errorInfo.type === "DATA_ERROR" && errorInfo.detail.includes("meals_unique_user_datetime_idx")) {
+        notyText = "You already have meal with this date/time";
+    } else if (errorInfo.type === "VALIDATION_ERROR" && errorInfo.detail.includes("User with this email already exists")) {
+        notyText = "User with this email already exists";
+    } else {
+        notyText = errorInfo.detail;
+    }
+
     failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"] + ": " + jqXHR.status + "<br>" + errorInfo.type + "<br>" + errorInfo.detail,
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.validationError"] + "<br>" + notyText,
         type: "error",
         layout: "bottomRight"
     }).show();
