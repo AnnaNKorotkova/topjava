@@ -115,4 +115,14 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
     void getMealByUserIdAndDateTime() throws Exception {
         MEAL_MATCHER.assertMatch(service.getMealByUserIdAndDateTime(USER_ID, MEAL5.getDateTime()), MEAL5);
     }
+
+    @Test
+    void notExistMealByUserIdAndDateTime() throws Exception {
+        Assertions.assertNull(service.getMealByUserIdAndDateTime(USER_ID, of(2019, Month.JANUARY, 30, 13, 0)));
+    }
+
+    @Test
+    void getNotOwnerMealByUserIdAndDateTime() throws Exception {
+        Assertions.assertNull(service.getMealByUserIdAndDateTime(ADMIN_ID, MEAL5.getDateTime()));
+    }
 }
