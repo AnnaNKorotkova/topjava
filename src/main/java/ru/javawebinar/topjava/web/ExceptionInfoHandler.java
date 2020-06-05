@@ -20,10 +20,8 @@ import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.util.exception.ErrorType.*;
 
@@ -71,22 +69,19 @@ public class ExceptionInfoHandler {
     }
 
     private static String simpleMessageFormatter(Throwable e) {
-        String regex = "(?<=default message \\[)[\\w\\s]+(?=\\])";
-        String result = Arrays.stream(e.toString().split(";"))
-                .filter(x -> x.contains("default message"))
-                .collect(Collectors.toList()).toString();
-
+        String regex = "(?<=on field ')[\\w\\s',.]+(?=')|(?<=default message \\[)[\\w\\s',.]+(?=\\])";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(result);
+        Matcher matcher = pattern.matcher(e.toString());
+
         StringBuilder sb = new StringBuilder();
         int count = 0;
         while (matcher.find()) {
-            sb.append(matcher.group(0)).append(count / 2 == 0 ? " " : "\n");
+            sb.append(matcher.group(0)).append(count % 2 == 0 ? " " : "<br>");
             count++;
         }
         if (count == 0) {
-            return e.toString();
+            return e.toString(); // для отладки нетипичных ошибок
         }
-        return sb.toString() ;
+        return sb.toString();
     }
 }

@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.DateTimeUtil.atStartOfDayOrMin;
@@ -50,5 +51,9 @@ public class MealService {
 
     public Meal getWithUser(int id, int userId) {
         return checkNotFoundWithId(repository.getWithUser(id, userId), id);
+    }
+
+    public Meal getMealByUserIdAndDateTime(int userId, LocalDateTime dateTime) {
+        return repository.getMealByUserIdAndDateTime(userId, dateTime);
     }
 }

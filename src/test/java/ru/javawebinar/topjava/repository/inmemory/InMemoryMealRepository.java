@@ -30,7 +30,6 @@ public class InMemoryMealRepository implements MealRepository {
         usersMealsMap.put(UserTestData.USER_ID, userMeals);
     }
 
-
     @Override
     public Meal save(Meal meal, int userId) {
         Objects.requireNonNull(meal, "meal must not be null");
@@ -79,5 +78,13 @@ public class InMemoryMealRepository implements MealRepository {
                         .filter(filter)
                         .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                         .collect(Collectors.toList());
+    }
+
+    @Override
+    public Meal getMealByUserIdAndDateTime(int userId, LocalDateTime dateTime) {
+        return usersMealsMap.get(userId)
+                .getCollection().stream()
+                .filter(x -> x.getDateTime().equals(dateTime))
+                .findFirst().orElse(null);
     }
 }

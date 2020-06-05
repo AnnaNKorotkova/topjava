@@ -20,7 +20,6 @@ public class UserTo extends BaseTo implements Serializable {
     @Email
     @NotBlank
     @Size(max = 100)
-    @UniqueEmail
     private String email;
 
     @NotBlank

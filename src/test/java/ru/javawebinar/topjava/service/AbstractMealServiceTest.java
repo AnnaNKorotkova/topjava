@@ -110,4 +110,9 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 9), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 5001), USER_ID), ConstraintViolationException.class);
     }
+
+    @Test
+    void getMealByUserIdAndDateTime() throws Exception {
+        MEAL_MATCHER.assertMatch(service.getMealByUserIdAndDateTime(USER_ID, MEAL5.getDateTime()), MEAL5);
+    }
 }

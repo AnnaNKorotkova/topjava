@@ -2,12 +2,9 @@ package ru.javawebinar.topjava.web.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
-import ru.javawebinar.topjava.util.ValidationUtil;
-import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,13 +33,26 @@ public class AdminUIController extends AbstractUserController {
     }
 
     @PostMapping
-    public void createOrUpdate(@Valid UserTo userTo, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalRequestDataException(ValidationUtil.getFieldsErrors(result));
-        }
+    public void createOrUpdate(@Valid UserTo userTo) {
+//        if (super.get(SecurityUtil.authUserId()).getEmail().equals(userTo.getEmail())) {
+//            throw new IllegalArgumentException("default message [email] default message [you can't add or update user with the same as yours email]");
+//        }
+//        if (result.hasErrors()) {
+//            throw new IllegalRequestDataException(ValidationUtil.getFieldsErrors(result));
+//        }
+//        boolean isExist = super.getByMail(userTo.getEmail()) != null;
         if (userTo.isNew()) {
+//            if (isExist) {
+//                result.rejectValue("email", "emailValid", "user with this email already exists");
+//                throw new IllegalArgumentException("user with this email already exists");
+//            }
+
             super.create(userTo);
         } else {
+//            if (isExist && super.get(SecurityUtil.authUserId()).getEmail().equals(userTo.getEmail())) {
+//                throw new IllegalArgumentException("you can't add user with the same as yours email");
+//            }
+//            User user = super.getByMail(userTo.getEmail());
             super.update(userTo, userTo.id());
         }
     }

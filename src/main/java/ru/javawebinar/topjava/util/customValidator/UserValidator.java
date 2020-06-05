@@ -3,25 +3,26 @@ package ru.javawebinar.topjava.util.customValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
 @Component
-public class MealValidator implements org.springframework.validation.Validator {
+public class UserValidator implements org.springframework.validation.Validator {
 
     @Autowired
-    private MealRepository mealRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private javax.validation.Validator validator;
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Meal.class.equals(clazz);
+        return UserTo.class.equals(clazz);
     }
 
     @Override
@@ -35,20 +36,17 @@ public class MealValidator implements org.springframework.validation.Validator {
             errors.rejectValue(propertyPath, "", message);
         }
 
-        Meal meal = (Meal) target;
-        if (meal.getDateTime() != null) {
-            final Meal mealByUserIdAndDateTime = mealRepository.getMealByUserIdAndDateTime(SecurityUtil.authUserId(), meal.getDateTime());
-            boolean isExist = mealByUserIdAndDateTime != null;
-            if (isExist) {
-                if (meal.isNew()) {
-                    errors.rejectValue("dateTime", "OneTime", "you can't add one more meal at the same time");
-                } else {
-                    if (!meal.getId().equals(mealByUserIdAndDateTime.getId())) {
-                        errors.rejectValue("dateTime", "OneTime", "you can't add one more meal at the same time");
-                    }
+        UserTo user = (UserTo) target;
+        boolean isExist = userRepository.getByEmail(user.getEmail()) != null;
+        if (isExist) {
+            if (user.isNew()) {
+                errors.rejectValue("email", "OneTime", "user with this email already exist");
+            } else {
+                User currentUser = userRepository.get(SecurityUtil.authUserId());
+                if (!user.getEmail().equals(currentUser.getEmail())) {
+                    errors.rejectValue("email", "OneTime", "user with this email already exist");
                 }
             }
         }
     }
 }
-

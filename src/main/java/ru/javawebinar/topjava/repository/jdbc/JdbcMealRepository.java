@@ -89,4 +89,10 @@ public class JdbcMealRepository implements MealRepository {
                 "SELECT * FROM meals WHERE user_id=?  AND date_time >=  ? AND date_time < ? ORDER BY date_time DESC",
                 ROW_MAPPER, userId, startDateTime, endDateTime);
     }
+
+    @Override
+    public Meal getMealByUserIdAndDateTime(int userId, LocalDateTime dateTime) {
+        List<Meal> meals = jdbcTemplate.query(
+                "SELECT * FROM meals WHERE user_id = ? AND date_time = ?", ROW_MAPPER, userId, dateTime);
+        return DataAccessUtils.singleResult(meals);    }
 }

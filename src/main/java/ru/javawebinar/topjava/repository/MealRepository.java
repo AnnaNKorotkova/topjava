@@ -21,6 +21,8 @@ public interface MealRepository {
     // ORDERED dateTime desc
     List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId);
 
+    Meal getMealByUserIdAndDateTime(int userId, LocalDateTime dateTime);
+
     default Meal getWithUser(int id, int userId) {
         throw new UnsupportedOperationException();
     }

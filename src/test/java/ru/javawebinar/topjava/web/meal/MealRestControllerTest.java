@@ -128,7 +128,7 @@ class MealRestControllerTest extends AbstractControllerTest {
         Meal newMeal = MealTestData.getNew();
         newMeal.setDateTime(MEAL3.getDateTime());
         String response = getResponseString(newMeal, REST_URL);
-        Assertions.assertTrue(response.contains("You can't add one more meal at the same time"));
+        Assertions.assertTrue(response.contains("you can't add one more meal at the same time"));
     }
 
     private String getResponseString(Meal newMeal, String url) throws Exception {

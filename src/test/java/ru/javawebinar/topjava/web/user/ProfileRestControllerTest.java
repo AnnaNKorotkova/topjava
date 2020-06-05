@@ -78,8 +78,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        Assertions.assertTrue(response.contains("(ru.javawebinar.topjava.to.UserTo):"));
-        Assertions.assertTrue(response.contains("default message [User with this email already exists]"));
+        Assertions.assertTrue(response.contains("user with this email already exist"));
     }
 
     @Test
