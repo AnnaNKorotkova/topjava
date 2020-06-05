@@ -20,6 +20,10 @@ import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,19 +73,19 @@ public class ExceptionInfoHandler {
     }
 
     private static String simpleMessageFormatter(Throwable e) {
-        String regex = "(?<=on field ')[\\w\\s',.]+(?=')|(?<=default message \\[)[\\w\\s',.]+(?=\\])";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(e.toString());
 
-        StringBuilder sb = new StringBuilder();
-        int count = 0;
-        while (matcher.find()) {
-            sb.append(matcher.group(0)).append(count % 2 == 0 ? " " : "<br>");
-            count++;
+        String regexField = "(?<=on field ')[\\w\\s',.]+(?=')";
+        String regexMessage = "(?<=default message \\[)[\\w\\s',.]+(?=\\])";
+        Pattern patternField = Pattern.compile(regexField);
+        Pattern patternMessage = Pattern.compile(regexMessage);
+        String target = e.toString();
+        Matcher matcherField = patternField.matcher(target);
+        Matcher matcherMessage = patternMessage.matcher(target);
+
+        List<String> list = new ArrayList<>();
+        while (matcherField.find() && matcherMessage.find()) {
+            list.add(matcherField.group(0) + " " + matcherMessage.group(0));
         }
-        if (count == 0) {
-            return e.toString(); // для отладки нетипичных ошибок
-        }
-        return sb.toString();
+        return list.size() == 0 ? target : String.join("<br>", list);
     }
 }
